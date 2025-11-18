@@ -1,0 +1,16 @@
+# --- Python ---
+__pycache__/
+*.pyc
+
+# --- Ambientes Virtuais  ---
+.venv/
+venv/
+env/
+
+# --- Poetry ---
+poetry.toml
+
+# --- Testes e IDE ---
+.pytest_cache/
+.vscode/
+.idea/
