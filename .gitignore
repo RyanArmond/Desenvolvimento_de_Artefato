@@ -2,13 +2,23 @@
 __pycache__/
 *.pyc
 
-# --- Ambientes Virtuais  ---
+# Vs Code
+.vscode/
+
+# Banco de dados
+db.sqlite3
+db.sqlite3-journal
+
+# --- Ambientes Virtuais  ---\
+.env
 .venv/
 venv/
 env/
+ENV/
 
 # --- Poetry ---
 poetry.toml
+poetry.lock
 
 # --- Testes e IDE ---
 .pytest_cache/
