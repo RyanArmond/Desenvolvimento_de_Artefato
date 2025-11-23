@@ -8,5 +8,5 @@ import calendar
 from datetime import date #criar calendario
 # Create your views here.
 
-def index(request):
-    return HttpResponse("<h1>Olá Mundo! 🚀</h1><p>Tela Teste.</p>")
+def home(request):
+    return render(request, "home.html")

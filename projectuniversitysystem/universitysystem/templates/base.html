@@ -10,18 +10,85 @@
         theme: {
         extend: {
             colors: {
-            //white : '#',
-            //blue: '#',
+            npurple : '#836DFF',
+            npurplelight: '#A291FF',
+            nbackpurple: "#F5F5FF",
+            nblack: "#1C1B1F",
+            nlightblack: "#404040",
+            nwhite: "#FEFEFE",
             }
         }
         }
     }
     </script>
-    <title>{% block title %}  {% endblock %}</title>        
+    <title>{% block title %} Site {% endblock %}</title>        
 </head>  
-<body>
-    {% block content %}
+<body class="bg-nbackpurple text-nblack">
+    <header class="bg-nwhite p-4">
+        <div class="flex items-center justify-between relative space-x-4 mx-40">
+            
+            <!-- Esquerda -->
+            <a href="{% url 'home_view' %}"
+            class="">
+            <img src="{% static 'img/USlogo.svg' %}" 
+                 alt="UniversitySystem Logo">
+            </a>
 
-    {% endblock %}
+            <div class="">
+            <a href="{% url 'home_view' %}" 
+                class="text-xl font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                Início
+            </a>
+            </div>
+
+            <div class="">
+            <a href="{% url 'home_view' %}" 
+                class="text-xl font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                Ensino
+            </a>
+            </div>
+
+            <div class="">
+            <a href="{% url 'home_view' %}" 
+                class="text-xl font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                Notas
+            </a>
+            </div>
+
+            <div class="">
+            <a href="{% url 'home_view' %}" 
+                class="text-xl font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                Restaurante
+            </a>
+            </div>
+
+            <div class="">
+            <a href="{% url 'home_view' %}" 
+                class="text-xl font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                Matrícula
+            </a>
+            </div>
+
+            <div class="">
+            <a href="{% url 'home_view' %}" class="flex items-center space-x-4 relative before:absolute before:-top-4 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
+                <div class="flex flex-col">
+                    <span class="text-base font-medium text-nblack">Username</span>
+                    <span class="text-base font-medium text-npurple -mt-1">Perfil</span>
+                </div>
+                <img src="{% static 'img/pic1.svg' %}" 
+                 alt="Profile Picture" class="w-10 h-10 rounded-full">
+            </a>
+            </div>
+
+        </div>
+    </header>
+    <main class="p-4 ml-40 mr-40">
+        {% block content %}
+        <!-- Conteúdo -->
+        {% endblock %}
+    </main>
+    <footer class="bg-npurple text-nwhite p-4 mt-4 text-center">
+        &copy; 2025 UniversitySystem. Todos os direitos reservados.
+    </footer>
 </body>
 </html>
