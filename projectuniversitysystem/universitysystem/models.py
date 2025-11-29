@@ -9,27 +9,24 @@ except Exception:
     sys.exit()
 
 # Create your models here.
-class Disciplina(models.Model):
-    ID = models.AutoField(primary_key=True)
+class Instituicao(models.Model):
     Nome = models.CharField(max_length=256)
-    Codigo = models.CharField(max_length=16)
-    Descricao = models.TextField()                   
-    Curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    Sigla = models.CharField(max_length=16)
+    CNPJ = models.CharField(max_length=32)
+    Endereco = models.CharField(max_length=512)  
 
 class Curso(models.Model):
-    ID = models.AutoField(primary_key=True)
     Nome = models.CharField(max_length=256)
     Descricao = models.TextField()           
     Sigla = models.CharField(max_length=16)
     Horarios = models.CharField(max_length=32)
     Instituicao = models.ForeignKey(Instituicao, on_delete=models.PROTECT)
 
-class Instituicao(models.Model):
-    ID = models.AutoField(primary_key=True)
+class Disciplina(models.Model):
     Nome = models.CharField(max_length=256)
-    Sigla = models.CharField(max_length=16)
-    CNPJ = models.CharField(max_length=32)
-    Endereco = models.CharField(max_length=512)    
+    Codigo = models.CharField(max_length=16)
+    Descricao = models.TextField()                   
+    Curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  
 
 class StatusDeMatricula(models.TextChoices):
     ATIVA = 'A', 'Ativa'
@@ -55,11 +52,23 @@ class Funcao(models.TextChoices):
 
 class Usuario(AbstractUser):
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
+    foto_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="URL da Foto")
+
+    funcao = models.CharField(
+        null=False,
+        max_length=2,
+        choices=Funcao.choices,
+        default=Funcao.ALUNO,
+        verbose_name="Função"
+    )
+    
+
+class Aluno(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
     email = models.EmailField(unique=True, verbose_name="E-mail")
     nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")
-    foto_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="URL da Foto")
-    tipo_usuario = models.CharField(max_length=20, verbose_name="Tipo de Usuário")
-    matricula = models.CharField(max_length=20, unique=True, verbose_name="Matrícula")
+    matricula = models.IntegerField(verbose_name="Matrícula")
     
     status = models.CharField(
         max_length=1,
@@ -80,7 +89,7 @@ class Turma(models.Model):
     periodo = models.IntegerField(verbose_name="Período")
     
     status = models.CharField(
-        max_length=2,
+        max_length=3,
         choices=StatusDeTurma.choices,
         default=StatusDeTurma.ABERTA_PARA_INSCRICOES,
         verbose_name="Status da Turma"
