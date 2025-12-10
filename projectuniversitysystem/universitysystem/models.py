@@ -8,31 +8,13 @@ except Exception:
     print("There was an error loading django modules. Do you have django installed?")
     sys.exit()
 
-# Create your models here.
-class Instituicao(models.Model):
-    Nome = models.CharField(max_length=256)
-    Sigla = models.CharField(max_length=16)
-    CNPJ = models.CharField(max_length=32)
-    Endereco = models.CharField(max_length=512)  
-
-class Curso(models.Model):
-    Nome = models.CharField(max_length=256)
-    Descricao = models.TextField()           
-    Sigla = models.CharField(max_length=16)
-    Horarios = models.CharField(max_length=32)
-    Instituicao = models.ForeignKey(Instituicao, on_delete=models.PROTECT)
-
-class Disciplina(models.Model):
-    Nome = models.CharField(max_length=256)
-    Codigo = models.CharField(max_length=16)
-    Descricao = models.TextField()                   
-    Curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  
-
+# ENUMS
 class StatusDeMatricula(models.TextChoices):
     ATIVA = 'A', 'Ativa'
     TRANCADA = 'T', 'Trancada'
     DESATIVADA = 'D', 'Desativada'
     CONCLUIDA = 'C', 'Concluida'
+
 
 class StatusDeTurma(models.TextChoices):
     ABERTA_PARA_INSCRICOES = 'ABI', 'Aberta para Inscrições'
@@ -40,20 +22,24 @@ class StatusDeTurma(models.TextChoices):
     EM_ANDAMENTO = 'EA', 'Em Andamento'
     ENCERRADA = 'EN', 'Encerrada'
 
+
 class StatusDeMatriculaDeTurma(models.TextChoices):
     SOLICITACAO = 'SO', 'Solicitação'
     ACEITO = 'AC', 'Aceito'
     REJEITADO = 'RE', 'Rejeitado'
 
+
 class Funcao(models.TextChoices):
     ALUNO = 'AL', 'Aluno'
     PROFESSOR = 'PR', 'Professor'
     COORDENADOR = 'CO', 'Coordenador'
+#FIM ENUMS
 
 class Usuario(AbstractUser):
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
     foto_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="URL da Foto")
-
+    matricula = models.CharField(max_length=50, unique=True, verbose_name="Matrícula")
+    
     funcao = models.CharField(
         null=False,
         max_length=2,
@@ -62,13 +48,15 @@ class Usuario(AbstractUser):
         verbose_name="Função"
     )
     
+    REQUIRED_FIELDS = ['cpf', 'matricula']
+    
 
 class Aluno(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
     email = models.EmailField(unique=True, verbose_name="E-mail")
     nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")
-    matricula = models.IntegerField(verbose_name="Matrícula")
+    matricula = models.CharField(max_length=50, verbose_name="Matrícula")
     
     status = models.CharField(
         max_length=1,
@@ -82,6 +70,28 @@ class Aluno(models.Model):
     def __str__(self):
         return f"{self.nome_completo} ({self.matricula})"
 
+
+class Instituicao(models.Model):
+    nome = models.CharField(max_length=256)
+    sigla = models.CharField(max_length=16)
+    cnpj = models.CharField(max_length=32)
+    endereco = models.CharField(max_length=512)  
+
+
+class Curso(models.Model):
+    nome = models.CharField(max_length=256)
+    descricao = models.TextField()           
+    sigla = models.CharField(max_length=16)
+    horarios = models.CharField(max_length=32)
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.PROTECT)
+
+
+class Disciplina(models.Model):
+    nome = models.CharField(max_length=256)
+    codigo = models.CharField(max_length=16)
+    descricao = models.TextField()                   
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  
+    
 
 class Turma(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
@@ -98,3 +108,44 @@ class Turma(models.Model):
     def __str__(self):
         return f"{self.nome} - {self.numero}"
 
+
+class Historico(models.Model):
+    aluno = models.OneToOneField(Aluno, on_delete=models.CASCADE)
+    data_emissao = models.DateField(auto_now=True)
+    
+    def __str__(self):
+        return f"Historico de {self.aluno}"
+    
+    
+class ItemHistorico(models.Model):
+    historico = models.ForeignKey(Historico, on_delete=models.CASCADE, related_name="itens")
+    discilina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
+    
+    media = models.DecimalField(max_digits=4, decimal_places=2, verbose_name="Média Final")
+    
+    periodo_cursado = models.CharField(max_length=6, help_text="Ex: 2025.2")
+    
+    class Meta:
+        unique_together = ('historico', 'disciplina')
+        verbose_name = "Item do Histórico"
+        verbose_name_plural = "Itens do Histórico"
+        
+    def __str__(self):
+        return f"{self.discilina.nome}: {self.media}"
+    
+
+class RestauranteUniversitario(models.Model):
+    instituicao = models.OneToOneField(Instituicao, on_delete=models.CASCADE)
+    
+    cardapio_dia = models.TextField(verbose_name="Cardápio do Dia")
+    horario_funcionamento = models.TextField(verbose_name="Horário de Funcionamento")
+    precos = models.TextField(verbose_name="Tabela de Preços")
+    
+    class Meta:
+        verbose_name = "Restaurante Universitário"
+        
+    def __str__(self):
+        return f"RU - {self.instituicao.sigla}"    
+    
+
+    

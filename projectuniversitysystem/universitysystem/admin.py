@@ -23,22 +23,22 @@ class UsuarioAdmin(UserAdmin):
 
 @admin.register(Instituicao)
 class InstituicaoAdmin(admin.ModelAdmin):
-    list_display = ('Nome', 'Sigla', 'CNPJ')
-    search_fields = ('Nome', 'Sigla', 'CNPJ')
+    list_display = ('nome', 'sigla', 'cnpj')
+    search_fields = ('nome', 'sigla', 'cnpj')
 
 
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
-    list_display = ('Nome', 'Sigla', 'Instituicao', 'Horarios')
-    list_filter = ('Instituicao',)
-    search_fields = ('Nome', 'Sigla')
+    list_display = ('nome', 'sigla', 'instituicao', 'horarios')
+    list_filter = ('instituicao',)
+    search_fields = ('nome', 'sigla')
 
 
 @admin.register(Disciplina)
 class DisciplinaAdmin(admin.ModelAdmin):
-    list_display = ('Nome', 'Codigo', 'Curso')
-    list_filter = ('Curso',)
-    search_fields = ('Nome', 'Codigo')
+    list_display = ('nome', 'codigo', 'curso')
+    list_filter = ('curso',)
+    search_fields = ('nome', 'codigo')
 
 
 @admin.register(Aluno)
