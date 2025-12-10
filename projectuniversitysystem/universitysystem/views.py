@@ -10,3 +10,6 @@ from datetime import date #criar calendario
 
 def home(request):
     return render(request, "home.html")
+
+def restaurante_view(request):
+    return render(request, "restaurante.html")
