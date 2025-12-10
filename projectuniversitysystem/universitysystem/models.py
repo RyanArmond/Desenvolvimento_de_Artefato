@@ -146,7 +146,9 @@ class ItemHistorico(models.Model):
 class RestauranteUniversitario(models.Model):
     instituicao = models.OneToOneField(Instituicao, on_delete=models.CASCADE)
     
-    cardapio_dia = models.TextField(verbose_name="Cardápio do Dia")
+    cafe_manha = models.TextField(verbose_name="Café da Manhã", blank=True, default="Não informado")
+    almoco = models.TextField(verbose_name="Almoço", blank=True, default="Não informado")
+    jantar = models.TextField(verbose_name="Jantar", blank=True, default="Não informado")
     horario_funcionamento = models.TextField(verbose_name="Horário de Funcionamento")
     precos = models.TextField(verbose_name="Tabela de Preços")
     

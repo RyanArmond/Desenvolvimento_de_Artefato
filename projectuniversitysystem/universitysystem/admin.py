@@ -78,6 +78,7 @@ class ItemHistoricoAdmin(admin.ModelAdmin):
     list_filter = ('disciplina', 'periodo_cursado')
     search_fields = ('historico__aluno__nome_completo',)
 
+
 @admin.register(RestauranteUniversitario)
 class RestauranteUniversitarioAdmin(admin.ModelAdmin):
     list_display = ('instituicao', 'horario_funcionamento')
@@ -87,6 +88,7 @@ class RestauranteUniversitarioAdmin(admin.ModelAdmin):
 class CompromissoInline(admin.TabularInline):
     model = Compromisso
     extra = 1
+
 
 @admin.register(CalendarioAcademico)
 class CalendarioAcademicoAdmin(admin.ModelAdmin):
