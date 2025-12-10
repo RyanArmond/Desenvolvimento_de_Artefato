@@ -119,7 +119,7 @@ class Historico(models.Model):
     
 class ItemHistorico(models.Model):
     historico = models.ForeignKey(Historico, on_delete=models.CASCADE, related_name="itens")
-    discilina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     
     media = models.DecimalField(max_digits=4, decimal_places=2, verbose_name="Média Final")
     
