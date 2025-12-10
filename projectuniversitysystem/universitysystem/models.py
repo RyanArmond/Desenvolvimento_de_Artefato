@@ -33,6 +33,15 @@ class Funcao(models.TextChoices):
     ALUNO = 'AL', 'Aluno'
     PROFESSOR = 'PR', 'Professor'
     COORDENADOR = 'CO', 'Coordenador'
+
+
+class TipoCompromisso(models.TextChoices):
+    FERIADO = "FE", "Feriado"
+    INICIO_AULAS = "IA", "Início das Aulas"
+    FIM_AULAS = "FA", "Fim das Aulas"
+    PROVA = "PR", "Prova"
+    EVENTO = "EV", "Evento"
+    RECESSO = "RE", "Recesso"
 #FIM ENUMS
 
 class Usuario(AbstractUser):
@@ -148,4 +157,40 @@ class RestauranteUniversitario(models.Model):
         return f"RU - {self.instituicao.sigla}"    
     
 
+class CalendarioAcademico(models.Model):
+    data_referencia = models.DateField(verbose_name="Data de Referência")
+    descricao = models.CharField(max_length=100, blank=True, verbose_name="Descrição", help_text="Ex: Calendário Acadêmico 2025.2")
+    
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Calendário Acadêmico"    
+        verbose_name_plural = "Calendários Acadêmicos"
+        ordering = ['-data_referencia']
+
+    def __str__(self):
+        return f"Calendário {self.data_referencia.strftime("%Y")}"
+
+    
+class Compromisso(models.Model):
+    titulo = models.CharField(max_length=100, verbose_name="Título")
+    data = models.DateField(verbose_name="Data do Compromisso")
+    
+    calendario_academico = models.ForeignKey(CalendarioAcademico, on_delete=models.CASCADE, related_name='compromissos')
+
+    tipo = models.CharField(
+        max_length=2,
+        choices=TipoCompromisso.choices,
+        default=TipoCompromisso.EVENTO,
+        verbose_name="Tipo do Compromisso"
+    )
+    
+    class Meta:
+        verbose_name = "Compromisso"
+        verbose_name_plural = "Compromissos"
+        ordering = ["data"]
+        
+    def __str__(self):
+        return f"{self.data.strftime("%d/%m")} - {self.titulo}"
+    
     
