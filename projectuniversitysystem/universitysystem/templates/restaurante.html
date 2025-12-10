@@ -8,9 +8,13 @@
 
     <h1 class="text-2xl font-semibold text-nblack mt-4 mb-2">Restaurante</h1>
 
+    {% if restaurante %}
+    
     <div class="bg-nwhite rounded-2xl p-10 shadow-sm flex flex-col items-center">
         
-        <h2 class="text-4xl font-semibold text-nblack mb-12">Cardápio do Dia</h2>
+        <h2 class="text-4xl font-semibold text-nblack mb-12">
+            Cardápio do Dia - {{ restaurante.instituicao.sigla }}
+        </h2>
 
         <div class="w-full max-w-5xl space-y-8">
 
@@ -21,9 +25,9 @@
                     </svg>
                     <span class="text-nwhite text-xl font-medium">Café da Manhã</span>
                 </div>
-                <p class="text-nblack font-medium leading-relaxed">
-                    Acompanhamento: Feijão Preto/ Arroz Branco ou Integral - Guarnição: Batata Assada - Proteína: Frango Assado - Salada: Mix de Folhas - Tomate - Sobremesa: Fruta
-                </p>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.cafe_manha|linebreaks }}
+                </div>
             </div>
 
             <div class="flex flex-row items-center space-x-6">
@@ -33,9 +37,9 @@
                     </svg>
                     <span class="text-nwhite text-xl font-medium">Almoço</span>
                 </div>
-                <p class="text-nblack font-medium leading-relaxed">
-                    Acompanhamento: Feijão Preto/ Arroz Branco ou Integral - Guarnição: Batata Assada - Proteína: Frango Assado - Salada: Mix de Folhas - Tomate - Sobremesa: Fruta
-                </p>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.almoco|linebreaks }}
+                </div>
             </div>
 
             <div class="flex flex-row items-center space-x-6">
@@ -45,25 +49,32 @@
                     </svg>
                     <span class="text-nwhite text-xl font-medium">Jantar</span>
                 </div>
-                <p class="text-nblack font-medium leading-relaxed">
-                    Acompanhamento: Feijão Preto/ Arroz Branco ou Integral - Guarnição: Batata Assada - Proteína: Frango Assado - Salada: Mix de Folhas - Tomate - Sobremesa: Fruta
-                </p>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.jantar|linebreaks }}
+                </div>
             </div>
 
         </div>
 
         <div class="w-full max-w-5xl mt-12 space-y-2 text-base font-semibold">
             <p class="text-nblack">
-                Preço dos Tickets: <span class="text-npurple">R$ 1,45 (Almoço), R$ 0,75 (Café da Manhã)</span>
+                Valores: <span class="text-npurple">{{ restaurante.precos|linebreaksbr }}</span>
             </p>
             <p class="text-nblack">
-                Horários de Funcionamento: <span class="text-npurple">Café da Manhã: 06:30h - 08:00h/ Almoço: 11:30h - 13:30h/ Jantar: 17:00h - 19:00h</span>
-            </p>
-            <p class="text-nblack">
-                Horários de Venda de Tickets: <span class="text-npurple">10:00h - 12:00h/ 15:00h - 17:00h</span>
+                Horários: <span class="text-npurple">{{ restaurante.horario_funcionamento|linebreaksbr }}</span>
             </p>
         </div>
 
     </div>
+
+    {% else %}
+    <div class="bg-white p-10 rounded-2xl shadow text-center">
+        <h2 class="text-xl text-red-500 font-bold">Aviso</h2>
+        <p class="text-gray-600 mt-2">
+            {{ erro|default:"Não foi possível carregar as informações do restaurante." }}
+        </p>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

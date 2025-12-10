@@ -58,10 +58,28 @@ class Usuario(AbstractUser):
     )
     
     REQUIRED_FIELDS = ['cpf', 'matricula']
+
+
+class Instituicao(models.Model):
+    nome = models.CharField(max_length=256)
+    sigla = models.CharField(max_length=16)
+    cnpj = models.CharField(max_length=32)
+    endereco = models.CharField(max_length=512)  
+
+
+class Curso(models.Model):
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.PROTECT)
     
+    nome = models.CharField(max_length=256)
+    descricao = models.TextField()           
+    sigla = models.CharField(max_length=16)
+    horarios = models.CharField(max_length=32)
+
 
 class Aluno(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.PROTECT, null=True, verbose_name="Curso")
+    
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
     email = models.EmailField(unique=True, verbose_name="E-mail")
     nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")
@@ -78,21 +96,6 @@ class Aluno(models.Model):
 
     def __str__(self):
         return f"{self.nome_completo} ({self.matricula})"
-
-
-class Instituicao(models.Model):
-    nome = models.CharField(max_length=256)
-    sigla = models.CharField(max_length=16)
-    cnpj = models.CharField(max_length=32)
-    endereco = models.CharField(max_length=512)  
-
-
-class Curso(models.Model):
-    nome = models.CharField(max_length=256)
-    descricao = models.TextField()           
-    sigla = models.CharField(max_length=16)
-    horarios = models.CharField(max_length=32)
-    instituicao = models.ForeignKey(Instituicao, on_delete=models.PROTECT)
 
 
 class Disciplina(models.Model):
