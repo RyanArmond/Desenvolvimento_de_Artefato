@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Usuario, Aluno, Instituicao, Curso, Disciplina, Turma
+from .models import (
+    Usuario, Aluno, Instituicao, Curso, Disciplina, Turma,
+    Historico, ItemHistorico, RestauranteUniversitario,
+    CalendarioAcademico, Compromisso
+)
 
 # Register your admins here.
 @admin.register(Usuario)
@@ -56,3 +60,43 @@ class TurmaAdmin(admin.ModelAdmin):
     search_fields = ('nome',)
 
 
+class ItemHistoricoInline(admin.TabularInline):
+    model = ItemHistorico
+    extra = 1
+
+
+@admin.register(Historico)
+class HistoricoAdmin(admin.ModelAdmin):
+    list_display = ('aluno', 'data_emissao')
+    search_fields = ('aluno__nome_completo', 'aluno__matricula')
+    inlines = [ItemHistoricoInline] 
+
+
+@admin.register(ItemHistorico)
+class ItemHistoricoAdmin(admin.ModelAdmin):
+    list_display = ('historico', 'disciplina', 'media', 'periodo_cursado')
+    list_filter = ('disciplina', 'periodo_cursado')
+    search_fields = ('historico__aluno__nome_completo',)
+
+@admin.register(RestauranteUniversitario)
+class RestauranteUniversitarioAdmin(admin.ModelAdmin):
+    list_display = ('instituicao', 'horario_funcionamento')
+    search_fields = ('instituicao__nome',)
+
+
+class CompromissoInline(admin.TabularInline):
+    model = Compromisso
+    extra = 1
+
+@admin.register(CalendarioAcademico)
+class CalendarioAcademicoAdmin(admin.ModelAdmin):
+    list_display = ('instituicao', 'data_referencia', 'descricao')
+    list_filter = ('instituicao',)
+    inlines = [CompromissoInline]
+
+
+@admin.register(Compromisso)
+class CompromissoAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'data', 'tipo', 'calendario_academico')
+    list_filter = ('tipo', 'data')
+    search_fields = ('titulo',)
