@@ -87,6 +87,7 @@ class Turma(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
     numero = models.IntegerField(verbose_name="Número")
     periodo = models.IntegerField(verbose_name="Período")
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     
     status = models.CharField(
         max_length=3,
@@ -97,4 +98,31 @@ class Turma(models.Model):
 
     def __str__(self):
         return f"{self.nome} - {self.numero}"
+    
+class Aula(models.Model):
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)   
+    titulo = models.CharField(max_length=256)
+    descricao = models.TextField()
+    data = models.DateField() 
 
+class Anexo(models.Model):
+    aula = models.ForeignKey(Aula, on_delete=models.CASCADE)   
+    nome = models.TextField()
+    arquivo_url = models.URLField(max_length=512)    
+
+class Aviso(models.Model):
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)   
+    titulo = models.CharField(max_length=256)
+    descricao = models.TextField()
+    data = models.DateField()
+
+class MatriculaEmTurma(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    
+    status = models.CharField(
+        max_length=2,
+        choices=StatusDeMatriculaDeTurma.choices,
+        default=StatusDeMatriculaDeTurma.SOLICITACAO,
+        verbose_name="Status de inscrição"
+    )
