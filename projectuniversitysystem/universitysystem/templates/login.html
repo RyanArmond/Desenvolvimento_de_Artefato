@@ -29,24 +29,25 @@
 </head>
 <body class="bg-nbackpurple flex items-center justify-center min-h-screen p-4 ">
 
-    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full h-[600px] mx-40 max-w-7xl">
+    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full max-w-4xl lg:max-w-5xl 2xl:max-w-6xl min-h-[480px] 2xl:min-h-[650px]">
         
         <div class="hidden md:flex md:w-1/2 bg-loginbg p-12 flex-col justify-between relative">
             <div class="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
             <h1 class="text-nwhite text-3xl font-bold z-10">US</h1>
         </div>
 
-        <div class="w-full md:w-1/2 p-12 flex flex-col justify-center relative">
+        <div class="w-full md:w-1/2 p-8 2xl:p-12 flex flex-col justify-center relative">
             
             <div class="max-w-md mx-auto w-full">
-                <h2 class="text-4xl font-bold text-nblack mb-2">Bem Vindo</h2>
-                <p class="text-npurple text-sm mb-8 leading-relaxed">
+                <h2 class="text-3xl 2xl:text-4xl font-bold text-nblack mb-2">Bem Vindo</h2>
+                
+                <p class="text-npurple text-xs 2xl:text-sm mb-6 2xl:mb-8 leading-relaxed">
                     Disciplinas, notas, informações da comunidade acadêmica, tarefas e projetos - tudo em um só lugar.
                 </p>
 
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="mb-4 p-3 bg-red-100 text-red-600 rounded text-sm text-center">
+                        <div class="mb-4 p-2 bg-red-100 text-red-600 rounded text-xs text-center">
                             {{ message }}
                         </div>
                     {% endfor %}
@@ -55,28 +56,28 @@
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
                     
-                    <div class="mb-5">
-                        <label class="block text-nblack text-sm font-semibold mb-2" for="username">
+                    <div class="mb-4 2xl:mb-5">
+                        <label class="block text-nblack text-sm font-semibold mb-1 2xl:mb-2" for="username">
                             Email ou Usuário
                         </label>
-                        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400"
+                        <input class="w-full px-4 py-2.5 2xl:py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400 text-sm 2xl:text-base"
                                type="text" 
                                name="username" 
                                id="username" 
-                               placeholder="seuusuario ou email" 
+                               placeholder="Seu_Usuario ou email" 
                                required>
                     </div>
 
-                    <div class="mb-6 relative">
-                        <div class="flex justify-between items-center mb-2">
+                    <div class="mb-5 2xl:mb-6 relative">
+                        <div class="flex justify-between items-center mb-1 2xl:mb-2">
                             <label class="block text-nblack text-sm font-semibold" for="password">
                                 Senha
                             </label>
-                            <a href="#" class="text-sm text-npurple hover:underline font-medium">
+                            <a href="#" class="text-xs 2xl:text-sm text-npurple hover:underline font-medium">
                                 Esqueceu sua senha?
                             </a>
                         </div>
-                        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400"
+                        <input class="w-full px-4 py-2.5 2xl:py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400 text-sm 2xl:text-base"
                                type="password" 
                                name="password" 
                                id="password" 
@@ -85,14 +86,14 @@
 
                     </div>
 
-                    <button type="submit" class="w-full bg-npurple hover:bg-[#6f5add] text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                    <button type="submit" class="w-full bg-npurple hover:bg-[#6f5add] text-white font-bold py-2.5 2xl:py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 text-sm 2xl:text-base">
                         Entrar
                     </button>
                 </form>
 
-                <div class="flex items-center my-6">
+                <div class="flex items-center my-4 2xl:my-6">
                     <div class="flex-grow border-t border-gray-300"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">ou</span>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs 2xl:text-sm">ou</span>
                     <div class="flex-grow border-t border-gray-300"></div>
                 </div>
 
