@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
     tailwind.config = {
         theme: {
@@ -16,6 +17,9 @@
                     nblack: "#1C1B1F",
                     nlightblack: "#404040",
                     nwhite: "#FEFEFE",
+                },
+                backgroundImage: {
+                    'loginbg': "url('{% static 'img/backgroundlogin.png' %}')",
                 }
             }
         }
@@ -23,31 +27,27 @@
     </script>
     <title>Login - UniversitySystem</title>
 </head>
-<body class="bg-nbackpurple flex items-center justify-center min-h-screen p-4">
+<body class="bg-nbackpurple flex items-center justify-center min-h-screen p-4 ">
 
-    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full max-w-5xl h-[600px]">
+    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full max-w-4xl lg:max-w-5xl 2xl:max-w-6xl min-h-[480px] 2xl:min-h-[650px]">
         
-        <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-npurplelight to-[#4B39B6] p-12 flex-col justify-between relative">
+        <div class="hidden md:flex md:w-1/2 bg-loginbg p-12 flex-col justify-between relative">
             <div class="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
-            
             <h1 class="text-nwhite text-3xl font-bold z-10">US</h1>
-            
-            <div class="z-10">
-                <p class="text-nwhite/80 text-sm">Bem-vindo à plataforma acadêmica.</p>
-            </div>
         </div>
 
-        <div class="w-full md:w-1/2 p-12 flex flex-col justify-center relative">
+        <div class="w-full md:w-1/2 p-8 2xl:p-12 flex flex-col justify-center relative">
             
             <div class="max-w-md mx-auto w-full">
-                <h2 class="text-4xl font-bold text-nblack mb-2">Bem Vindo</h2>
-                <p class="text-npurple text-sm mb-8 leading-relaxed">
+                <h2 class="text-3xl 2xl:text-4xl font-bold text-nblack mb-2">Bem Vindo</h2>
+                
+                <p class="text-npurple text-xs 2xl:text-sm mb-6 2xl:mb-8 leading-relaxed">
                     Disciplinas, notas, informações da comunidade acadêmica, tarefas e projetos - tudo em um só lugar.
                 </p>
 
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="mb-4 p-3 bg-red-100 text-red-600 rounded text-sm text-center">
+                        <div class="mb-4 p-2 bg-red-100 text-red-600 rounded text-xs text-center">
                             {{ message }}
                         </div>
                     {% endfor %}
@@ -56,56 +56,67 @@
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
                     
-                    <div class="mb-5">
-                        <label class="block text-nblack text-sm font-semibold mb-2" for="username">
+                    <div class="mb-4 2xl:mb-5">
+                        <label class="block text-nblack text-sm font-semibold mb-1 2xl:mb-2" for="username">
                             Email ou Usuário
                         </label>
-                        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400"
+                        <input class="w-full px-4 py-2.5 2xl:py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400 text-sm 2xl:text-base"
                                type="text" 
                                name="username" 
                                id="username" 
-                               placeholder="seuusuario ou email" 
+                               placeholder="Seu_Usuario ou email" 
                                required>
                     </div>
 
-                    <div class="mb-6 relative">
-                        <div class="flex justify-between items-center mb-2">
+                    <div class="mb-5 2xl:mb-6 relative">
+                        <div class="flex justify-between items-center mb-1 2xl:mb-2">
                             <label class="block text-nblack text-sm font-semibold" for="password">
                                 Senha
                             </label>
-                            <a href="#" class="text-sm text-npurple hover:underline font-medium">
+                            <a href="#" class="text-xs 2xl:text-sm text-npurple hover:underline font-medium">
                                 Esqueceu sua senha?
                             </a>
                         </div>
-                        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400"
+                        <input class="w-full px-4 py-2.5 2xl:py-3 rounded-lg border border-gray-300 focus:border-npurple focus:ring-2 focus:ring-npurple/20 outline-none transition-all text-nblack placeholder-gray-400 text-sm 2xl:text-base"
                                type="password" 
                                name="password" 
                                id="password" 
                                placeholder="*************" 
                                required>
-                        <button type="button" class="absolute right-4 top-[38px] text-gray-400 hover:text-npurple">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
+
                     </div>
 
-                    <button type="submit" class="w-full bg-npurple hover:bg-[#6f5add] text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                    <button type="submit" class="w-full bg-npurple hover:bg-[#6f5add] text-white font-bold py-2.5 2xl:py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 text-sm 2xl:text-base">
                         Entrar
                     </button>
                 </form>
 
-                <div class="flex items-center my-6">
+                <div class="flex items-center my-4 2xl:my-6">
                     <div class="flex-grow border-t border-gray-300"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">ou</span>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs 2xl:text-sm">ou</span>
                     <div class="flex-grow border-t border-gray-300"></div>
                 </div>
 
-                <button type="button" class="w-full flex items-center justify-center border border-gray-300 hover:bg-gray-50 bg-white text-nblack font-medium py-3 rounded-lg transition-all">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5 mr-2">
-                    Sign in with Google
-                </button>
+                <div class="flex justify-center">
+                    <div id="g_id_onload"
+                        data-client_id="932850632858-qpckuf3a3jbd7f6eg5rke9mvilcve3l0.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-login_uri="http://localhost:8000/login_google/"
+                        data-auto_select="true"
+                        data-itp_support="true">
+                    </div>
+
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="rectangular"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="center"
+                        data-width="450">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
