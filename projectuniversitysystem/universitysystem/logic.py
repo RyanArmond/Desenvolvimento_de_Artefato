@@ -27,3 +27,8 @@ def getTurmasDoCurso(request, idCurso):
     ]
 
     return JsonResponse(json, safe=False)
+
+def getAgenda(request):
+    # TODO: Verificar se está logado
+
+    return
