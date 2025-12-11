@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
     tailwind.config = {
         theme: {
@@ -16,6 +17,9 @@
                     nblack: "#1C1B1F",
                     nlightblack: "#404040",
                     nwhite: "#FEFEFE",
+                },
+                backgroundImage: {
+                    'loginbg': "url('{% static 'img/backgroundlogin.png' %}')",
                 }
             }
         }
@@ -23,18 +27,13 @@
     </script>
     <title>Login - UniversitySystem</title>
 </head>
-<body class="bg-nbackpurple flex items-center justify-center min-h-screen p-4">
+<body class="bg-nbackpurple flex items-center justify-center min-h-screen p-4 ">
 
-    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full max-w-5xl h-[600px]">
+    <div class="bg-nwhite rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row w-full h-[600px] mx-40 max-w-7xl">
         
-        <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-npurplelight to-[#4B39B6] p-12 flex-col justify-between relative">
+        <div class="hidden md:flex md:w-1/2 bg-loginbg p-12 flex-col justify-between relative">
             <div class="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
-            
             <h1 class="text-nwhite text-3xl font-bold z-10">US</h1>
-            
-            <div class="z-10">
-                <p class="text-nwhite/80 text-sm">Bem-vindo à plataforma acadêmica.</p>
-            </div>
         </div>
 
         <div class="w-full md:w-1/2 p-12 flex flex-col justify-center relative">
@@ -83,12 +82,7 @@
                                id="password" 
                                placeholder="*************" 
                                required>
-                        <button type="button" class="absolute right-4 top-[38px] text-gray-400 hover:text-npurple">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
+
                     </div>
 
                     <button type="submit" class="w-full bg-npurple hover:bg-[#6f5add] text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
@@ -102,10 +96,26 @@
                     <div class="flex-grow border-t border-gray-300"></div>
                 </div>
 
-                <button type="button" class="w-full flex items-center justify-center border border-gray-300 hover:bg-gray-50 bg-white text-nblack font-medium py-3 rounded-lg transition-all">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5 mr-2">
-                    Sign in with Google
-                </button>
+                <div class="flex justify-center">
+                    <div id="g_id_onload"
+                        data-client_id="932850632858-qpckuf3a3jbd7f6eg5rke9mvilcve3l0.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-login_uri="http://localhost:8000/login_google/"
+                        data-auto_select="true"
+                        data-itp_support="true">
+                    </div>
+
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="rectangular"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="center"
+                        data-width="450">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
