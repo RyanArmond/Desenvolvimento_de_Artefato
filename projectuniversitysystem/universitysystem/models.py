@@ -150,7 +150,7 @@ class Disciplina(models.Model):
 class Turma(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
     numero = models.IntegerField(verbose_name="Número")
-    periodo = models.IntegerField(verbose_name="Período")
+    periodo = models.CharField(verbose_name="Período")
     
     status = models.CharField(
         max_length=3,
@@ -194,7 +194,7 @@ class ItemHistorico(models.Model):
         verbose_name_plural = "Itens do Histórico"
         
     def __str__(self):
-        return f"{self.discilina.nome}: {self.media}"
+        return f"{self.disciplina.nome}: {self.media}"
     
 
 class RestauranteUniversitario(models.Model):

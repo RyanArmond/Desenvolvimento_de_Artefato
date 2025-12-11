@@ -10,7 +10,7 @@ from .models import (
 @admin.register(Usuario)
 class UsuarioAdmin(UserAdmin):
 
-    list_display = ['username', 'email', 'cpf', 'funcao']
+    list_display = ['username', 'email', 'cpf',  'matricula', 'funcao']
 
     list_filter = ('funcao', 'is_staff', 'is_superuser')
 
@@ -21,7 +21,7 @@ class UsuarioAdmin(UserAdmin):
 
     # Campos que aparecem ao criar um usuário
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Campos adicionais', {'fields': ('first_name', 'last_name', 'email', 'cpf', 'funcao')}),
+        ('Campos adicionais', {'fields': ('first_name', 'last_name', 'email', 'cpf', 'funcao', 'matricula')}),
     )
 
 

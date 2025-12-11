@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Aluno, RestauranteUniversitario, Usuario
+from .models import Aluno, RestauranteUniversitario, Usuario, Historico, ItemHistorico
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -13,6 +13,7 @@ from django.contrib import messages
 import logging
 import calendar
 from datetime import date
+from collections import defaultdict
 
 
 def home(request):
@@ -96,6 +97,36 @@ def login_google_view(request):
             logging.exception("Erro ao verificar token Google")
             return HttpResponse(status=403)
 
+
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+def notas_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    context = {}
+    
+    aluno = Aluno.objects.filter(user=request.user).first()
+
+    if aluno:
+        try:
+            historico = Historico.objects.get(aluno=aluno)
+            
+            itens = ItemHistorico.objects.filter(historico=historico).order_by('-periodo_cursado', 'disciplina__nome')
+            
+            boletim = defaultdict(list)
+            for item in itens:
+                boletim[item.periodo_cursado].append(item)
+            
+            context['boletim'] = dict(boletim)
+            context['aluno'] = aluno
+
+        except Historico.DoesNotExist:
+            context['erro'] = "Histórico acadêmico não encontrado."
+    else:
+        context['erro'] = "Perfil de aluno não encontrado."
+
+    return render(request, 'notas.html', context)
