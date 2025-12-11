@@ -10,6 +10,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.conf import settings
 from django.contrib import messages
+import logging
 import calendar
 from datetime import date
 
@@ -77,7 +78,7 @@ def login_google_view(request):
                 token,
                 requests.Request(),
                 settings.GOOGLE_OAUTH_CLIENT_ID,
-               clock_skew_in_seconds=300  # tolera até 5 minutos de diferenças entre os servidores
+                clock_skew_in_seconds=300  # tolera até 5 minutos de diferença
             )
             
             email = data["email"]
@@ -91,7 +92,8 @@ def login_google_view(request):
             login(request, user)
             return redirect("home_view")
             
-        except ValueError:
+        except ValueError as e:
+            logging.exception("Erro ao verificar token Google")
             return HttpResponse(status=403)
 
 def logout_view(request):
