@@ -82,6 +82,21 @@ class Aluno(models.Model):
     def __str__(self):
         return f"{self.nome_completo} ({self.matricula})"
 
+class Professor(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)    
+    email = models.EmailField(unique=True, verbose_name="E-mail")
+    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")        
+
+    def __str__(self):
+        return f"{self.nome_completo} ({self.matricula})"
+    
+class Coordenador(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)    
+    email = models.EmailField(unique=True, verbose_name="E-mail")
+    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")        
+
+    def __str__(self):
+        return f"{self.nome_completo} ({self.matricula})"
 
 class Turma(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
@@ -116,7 +131,7 @@ class Aviso(models.Model):
     descricao = models.TextField()
     data = models.DateField()
 
-class MatriculaEmTurma(models.Model):
+class InscricaoDeAluno(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
     
@@ -126,3 +141,7 @@ class MatriculaEmTurma(models.Model):
         default=StatusDeMatriculaDeTurma.SOLICITACAO,
         verbose_name="Status de inscrição"
     )
+
+class InscricaoDeProfessor(models.Model):
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)    

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 #from .models import nomedomodel1,nomedomodel2
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, logout, authenticate
+from universitysystem.models import *
 
 def getTurmasDoCurso(request, idCurso):
     # TODO: Verificar se está logado    

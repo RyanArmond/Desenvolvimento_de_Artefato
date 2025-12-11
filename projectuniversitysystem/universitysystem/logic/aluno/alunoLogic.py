@@ -5,12 +5,13 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.db.models import Q
+from universitysystem.models import *
 
 # Verificar antes se é aluno e está logado; Não ocorre verificação nessa função
 def getTurmasAtuaisUnsafe(User):
     usuario = User
     aluno = get_object_or_404(Aluno, user=usuario)
-    matriculas = MatriculaEmTurma.objects.filter(
+    matriculas = InscricaoDeAluno.objects.filter(
         aluno=aluno,
         status='AC',
         turma__status='EA'
@@ -32,7 +33,7 @@ def getTurmasAntigas(request):
 
     usuario = request.user
     aluno = get_object_or_404(Aluno, user=usuario)
-    matriculas = MatriculaEmTurma.objects.filter(
+    matriculas = InscricaoDeAluno.objects.filter(
         aluno=aluno,
         status='AC',        
     ).filter(
