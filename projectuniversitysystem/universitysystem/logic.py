@@ -14,19 +14,8 @@ def getTurmasDoCurso(request, idCurso):
         return HttpResponse("Curso não encontrado", status=404)
     
     turmas = Turma.objects.filter(disciplina__Curso=curso)
-    
-    json = [
-        {
-            "id": turma.id,
-            "nome": turma.nome,
-            "numero": turma.numero,
-            "periodo": turma.periodo,
-            "status": turma.status,
-        }
-        for turma in turmas
-    ]
 
-    return JsonResponse(json, safe=False)
+    return turmas;
 
 def getAgenda(request):
     # TODO: Verificar se está logado

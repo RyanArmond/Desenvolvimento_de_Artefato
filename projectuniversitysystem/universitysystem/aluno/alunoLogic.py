@@ -24,18 +24,7 @@ def getTurmasDoAluno(request):
   
     turmas = getTurmasAtuaisUnsafe(request)
 
-    json = [
-        {
-            "id": turma.id,
-            "nome": turma.nome,
-            "numero": turma.numero,
-            "periodo": turma.periodo,
-            "status": turma.status,
-        }
-        for turma in turmas
-    ]
-
-    return JsonResponse(json, safe=False)    
+    return turmas
 
 def getTurmasAntigas(request):
     # TODO: Verificar se está logado
@@ -52,56 +41,20 @@ def getTurmasAntigas(request):
 
     turmas = [matricula.turma for matricula in matriculas]
 
-    json = [
-        {
-            "id": turma.id,
-            "nome": turma.nome,
-            "numero": turma.numero,
-            "periodo": turma.periodo,
-            "status": turma.status,
-        }
-        for turma in turmas
-    ]
-
-    return JsonResponse(json, safe=False)
+    return turmas
 
 def getAvisos(request):
     # TODO: Verificar se está logado    
     # TODO: Verificar se é um aluno
 
     turmas = getTurmasAtuaisUnsafe(request)
-    avisos = Aviso.objects.filter(turma__in=turmas).order_by('-data')
-    json = [
-        {
-            "id": aviso.id,
-            "turma": aviso.turma.nome,
-            "turma_id": aviso.turma.id,
-            "titulo": aviso.titulo,
-            "descricao": aviso.descricao,
-            "data": aviso.data,
-        }
-        for aviso in avisos
-    ]
-
-    return JsonResponse(json, safe=False)
+    avisos = Aviso.objects.filter(turma__in=turmas).order_by('-data')    
+    return avisos
 
 def getAvisosDaTurma(request, idTurma):    
     turmaEsc = get_object_or_404(Turma, id=idTurma)
     avisos = Aviso.objects.filter(turma=turmaEsc).order_by('-data')
-
-    json = [
-        {
-            "id": aviso.id,
-            "turma": aviso.turma.nome,
-            "turma_id": aviso.turma.id,
-            "titulo": aviso.titulo,
-            "descricao": aviso.descricao,
-            "data": aviso.data,
-        }
-        for aviso in avisos
-    ]
-
-    return JsonResponse(json, safe=False)
+    return avisos
 
 def getInformacoes(request):
     # TODO: Verificar se está logado
