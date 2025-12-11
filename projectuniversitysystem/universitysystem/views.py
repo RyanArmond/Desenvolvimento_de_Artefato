@@ -92,10 +92,24 @@ def login_google_view(request):
             login(request, user)
             return redirect("home_view")
             
-        except ValueError as e:
+        except ValueError:
             logging.exception("Erro ao verificar token Google")
             return HttpResponse(status=403)
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    try:
+        aluno = Aluno.objects.get(user=request.user)
+        context = {'aluno': aluno}
+
+    except Aluno.DoesNotExist:
+        messages.error(request, "Aluno não encontrado. ")
+        return redirect("home_view")
+        
+    return render(request, 'profile.html', context)
