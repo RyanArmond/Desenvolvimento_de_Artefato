@@ -47,8 +47,9 @@ class TipoCompromisso(models.TextChoices):
 
 class Usuario(AbstractUser):
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
-    foto_url = models.URLField(max_length=500, blank=True, null=True, verbose_name="URL da Foto")
+    foto = models.ImageField(upload_to='fotos_alunos/', blank=True, null=True)
     matricula = models.CharField(max_length=50, unique=True, verbose_name="Matrícula")
+    email = models.EmailField(unique=True, verbose_name="E-mail")
     
     funcao = models.CharField(
         null=False,
@@ -110,11 +111,6 @@ class Aluno(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, null=True, verbose_name="Curso")
     
-    cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
-    email = models.EmailField(unique=True, verbose_name="E-mail")
-    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")
-    matricula = models.CharField(max_length=50, verbose_name="Matrícula")
-    
     status = models.CharField(
         max_length=1,
         choices=StatusDeMatricula.choices,
@@ -125,10 +121,9 @@ class Aluno(models.Model):
     class Meta:
         verbose_name = 'Aluno'
         verbose_name_plural = 'Alunos'
-        ordering = ['nome_completo']
     
     def __str__(self):
-        return f"{self.nome_completo} ({self.matricula})"
+        return f"{self.curso} ({self.status})"
 
 
 class Disciplina(models.Model):

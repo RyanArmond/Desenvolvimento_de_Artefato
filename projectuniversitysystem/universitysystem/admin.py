@@ -12,16 +12,16 @@ class UsuarioAdmin(UserAdmin):
 
     list_display = ['username', 'email', 'cpf',  'matricula', 'funcao']
 
-    list_filter = ('funcao', 'is_staff', 'is_superuser')
-
     # Campos que aparecem ao editar um usuário
     fieldsets = UserAdmin.fieldsets + (
-        ('Campos adicionais', {'fields': ('cpf', 'funcao')}),
+        ('Campos adicionais', {'fields': ('cpf', 'matricula', 'funcao', 'foto')}),
     )
+
+    list_filter = ('funcao', 'is_staff', 'is_superuser')
 
     # Campos que aparecem ao criar um usuário
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Campos adicionais', {'fields': ('first_name', 'last_name', 'email', 'cpf', 'funcao', 'matricula')}),
+        ('Campos adicionais', {'fields': ('first_name', 'last_name', 'email', 'cpf', 'matricula', 'funcao', 'foto')}),
     )
 
 
@@ -47,9 +47,9 @@ class DisciplinaAdmin(admin.ModelAdmin):
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('nome_completo', 'matricula', 'cpf', 'status', 'email')
-    list_filter = ('status',)
-    search_fields = ('nome_completo', 'matricula', 'cpf')
+    list_display = ('status', 'curso')
+    list_filter = ('status', 'curso')
+    search_fields = ('matricula', 'cpf')
     autocomplete_fields = ['user'] 
 
 

@@ -85,10 +85,19 @@ def login_google_view(request):
             email = data["email"]
             name = data.get("name", "")
 
-            user, _ = Usuario.objects.get_or_create(
+            user, created = Usuario.objects.get_or_create(
                 username=email,
-                defaults={"first_name": name.split()[0], "last_name": " ".join(name.split()[1:])}
+                defaults={
+                    "first_name": name.split()[0] if name else "",
+                    "last_name": " ".join(name.split()[1:]) if name and len(name.split()) > 1 else "",
+                    "email": email,
+                }
             )
+
+            # Se o usuário já existia mas não tinha o email preenchido, atualiza e salva
+            if not created and (not user.email or user.email != email):
+                user.email = email
+                user.save()
 
             login(request, user)
             return redirect("home_view")
@@ -130,16 +139,12 @@ def notas_view(request):
         context['erro'] = "Perfil de aluno não encontrado."
 
     return render(request, 'notas.html', context)
+
 def profile_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
-
-    try:
-        aluno = Aluno.objects.get(user=request.user)
-        context = {'aluno': aluno}
-
-    except Aluno.DoesNotExist:
-        messages.error(request, "Aluno não encontrado. ")
-        return redirect("home_view")
+    
+    user = request.user
+    context = {'user': user}
         
     return render(request, 'profile.html', context)

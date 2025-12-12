@@ -6,6 +6,13 @@ UniversitySystem - Meu Perfil
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="space-y-10 p-8 bg-nwhite rounded-xl shadow-lg">
 
     <h1 class="text-3xl font-bold text-nlightblack">Meu Perfil</h1>
@@ -13,14 +20,14 @@ UniversitySystem - Meu Perfil
     <div class="flex items-start space-x-10 border-b border-gray-200 pb-8">
 
         <div class="w-48 h-48 bg-npurple rounded-full flex-shrink-0 relative">
-            {% if aluno.foto_url %}
-            <img src="{{ aluno.foto_url }}" alt="Foto do Perfil" class="w-full h-full object-cover rounded-full">
+            {% if user.foto %}
+            <img src="{{ user.foto.url }}" alt="Foto do Perfil" class="w-full h-full object-cover rounded-full">
             {% endif %}
         </div>
 
         <div class="pt-6">
             <h2 class="text-3xl font-bold text-nblack mb-4">
-                Aluno(a): {{ user.get_full_name|default:"User Name" }}
+                Aluno(a): {{ user.first_name }} {{ user.last_name }}
             </h2>
 
             <div class="flex space-x-3">
@@ -44,7 +51,7 @@ UniversitySystem - Meu Perfil
 
             <div>
                 <label for="cpf" class="block text-sm font-medium text-nlightblack mb-2">CPF</label>
-                <input type="text" id="cpf" value="{{ aluno.cpf }}" disabled
+                <input type="text" id="cpf" value="{{ user.cpf }}" disabled
                     class="w-full p-3 border border-npurplelight rounded-md bg-nwhite text-nblack font-medium"
                     aria-label="CPF do usuário">
             </div>
@@ -79,27 +86,9 @@ UniversitySystem - Meu Perfil
 
             <div>
                 <label for="matricula" class="block text-sm font-medium text-nlightblack mb-2">Matrícula</label>
-                <input type="text" id="matricula" value="{{ aluno.matricula }}" disabled
+                <input type="text" id="matricula" value="{{ user.matricula }}" disabled
                     class="w-full p-3 border border-npurplelight rounded-md bg-nwhite text-nblack font-medium"
                     aria-label="Número de matrícula do aluno">
-            </div>
-
-            <div>
-                <label for="placeholder1" class="block text-sm font-medium text-nlightblack mb-2">Placeholder</label>
-                <input type="text" id="placeholder1" value="000.000.000-00" disabled
-                    class="w-full p-3 border border-npurplelight rounded-md bg-nwhite text-nblack font-medium">
-            </div>
-
-            <div>
-                <label for="placeholder2" class="block text-sm font-medium text-nlightblack mb-2">Placeholder</label>
-                <input type="text" id="placeholder2" value="000.000.000-00" disabled
-                    class="w-full p-3 border border-npurplelight rounded-md bg-nwhite text-nblack font-medium">
-            </div>
-
-            <div>
-                <label for="placeholder3" class="block text-sm font-medium text-nlightblack mb-2">Placeholder</label>
-                <input type="text" id="placeholder3" value="000.000.000-00" disabled
-                    class="w-full p-3 border border-npurplelight rounded-md bg-nwhite text-nblack font-medium">
             </div>
 
         </div>
