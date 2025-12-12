@@ -172,6 +172,7 @@ class Disciplina(models.Model):
 
 class Turma(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, null=True)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True)
 
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
     numero = models.IntegerField(verbose_name="Número")    
@@ -235,6 +236,13 @@ class InscricaoDeAluno(models.Model):
         default=StatusDeMatriculaDeTurma.SOLICITACAO,
         verbose_name="Status de inscrição"
     )
+
+    class Meta:
+        verbose_name = 'Inscrição de Aluno'
+        verbose_name_plural = 'Inscrições de Alunos'
+
+    def __str__(self):
+        return f'{self.aluno.user.get_full_name} - {self.turma.nome}'
 
 
 class InscricaoDeProfessor(models.Model):

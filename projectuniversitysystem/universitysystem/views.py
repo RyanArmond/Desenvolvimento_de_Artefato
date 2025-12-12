@@ -24,14 +24,37 @@ def home(request):
         return redirect("login")    
     
     if request.user.funcao == "AL":        
+        
+        aluno = Aluno.objects.filter(user=request.user).first()
+        
+        try:
+            historico = Historico.objects.get(aluno=aluno)
+            itens = ItemHistorico.objects.filter(historico=historico).select_related('disciplina').order_by('-periodo_cursado')
+        except Historico.DoesNotExist:
+            historico = None
+            itens = []
+
+        soma_notas = 0
+        total_disciplinas = 0
+
+        for item in itens:
+            soma_notas += item.media
+            total_disciplinas += 1
+
+        ira = round(soma_notas / total_disciplinas, 2) if total_disciplinas > 0 else 0.0
+
         context = {
-            'usuario': request.user,        
+            'aluno': aluno,
             'disciplinas': getTurmasDoAluno(request),
-            'avisos': getAvisos(request)[:5]
+            'avisos': getAvisos(request)[:5],
+            'ira': ira
         }
+
         return render(request, "aluno/home.html", context)
+    
     elif request.user.funcao == "PR":
         return render(request, "professor/home.html") 
+    
     else:
         return render(request, "adm/home.html")
 
@@ -212,7 +235,6 @@ def profile_view(request):
     context['template_base'] = template_base
 
     return render(request, 'gerais/profile.html', context)
-
 
 
 def delete_foto_view(request):

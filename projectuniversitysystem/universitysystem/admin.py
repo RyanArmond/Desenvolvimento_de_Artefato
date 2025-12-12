@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import (
     Usuario, Aluno, Instituicao, Curso, Disciplina, Turma,
     Historico, ItemHistorico, RestauranteUniversitario,
-    CalendarioAcademico, Compromisso, Professor
+    CalendarioAcademico, Compromisso, Professor, InscricaoDeAluno
 )
 
 # Register your admins here.
@@ -49,7 +49,7 @@ class DisciplinaAdmin(admin.ModelAdmin):
 class AlunoAdmin(admin.ModelAdmin):
     list_display = ('user__first_name', 'status', 'curso')
     list_filter = ('status', 'curso')
-    search_fields = ('matricula', 'cpf')
+    search_fields = ('matricula', 'cpf', 'user__first_name', 'user__last_name')
     autocomplete_fields = ['user'] 
 
 
@@ -61,11 +61,29 @@ class ProfessorAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user'] 
 
 
+@admin.register(InscricaoDeAluno)
+class InscricaoDeAlunoAdmin(admin.ModelAdmin):
+    list_display = ('aluno', 'turma', 'status') 
+    
+    list_filter = ('turma',) 
+    
+    search_fields = ('aluno__user__first_name', 'aluno__matricula', 'turma__nome')
+    
+    autocomplete_fields = ['aluno', 'turma']
+
+
+class InscricaoDeAlunoInline(admin.TabularInline):
+    model = InscricaoDeAluno
+    autocomplete_fields = ['aluno'] # Permite buscar o aluno
+    extra = 1
+
+
 @admin.register(Turma)
 class TurmaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'numero', 'periodo', 'status')
     list_filter = ('status', 'periodo')
     search_fields = ('nome',)
+    inlines = [InscricaoDeAlunoInline]
 
 
 class ItemHistoricoInline(admin.TabularInline):
@@ -110,3 +128,5 @@ class CompromissoAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'data', 'tipo', 'calendario_academico')
     list_filter = ('tipo', 'data')
     search_fields = ('titulo',)
+
+

@@ -1,5 +1,5 @@
 {% extends "aluno/base.html" %}
-{% load static %}
+    {% load static %}
 
 {% block title %} UniversitySystem - Início {% endblock %}
 
@@ -13,7 +13,7 @@
         <div class="flex flex-col space-y-4">
             <h2 class="text-4xl font-bold text-nlightblack">Minhas disciplinas</h2>
 
-            <span class="text-x1 font-medium text-nlightblack"> 2025.2 - Turno Matutino/Vespertino </span>
+            <span class="text-x1 font-medium text-nlightblack"> 2025.2 - {{ aluno.curso.horarios }} </span>
 
 
             <div class="bg-npurple text-nwhite p-4 rounded-xl shadow-lg">
@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold text-nlightblack mb-2">
-                            <a href="{% url 'disciplina_detalhe' disciplina.id %}">
+                            <a href="">
                                 {{ disciplina.nome }}
                             </a>
                         </h3>
@@ -49,9 +49,13 @@
                             {{ disciplina.descricao }}
                         </p>
                         <div class="flex space-x-2 flex-wrap gap-y-2">
+                            
+                            <span class="bg-npurplelight text-nwhite text-xs font-semibold px-3 py-1 rounded-full">
+                                {{ aluno.curso.nome }}
+                            </span>
 
                             <span class="bg-npurplelight text-nwhite text-xs font-semibold px-3 py-1 rounded-full">
-                                Professor(a) {{ disciplina.professor }}
+                                Professor(a) {{ disciplina.professor.nome }}
                             </span>
 
                         </div>
@@ -73,7 +77,7 @@
                 <h2 class="text-2xl font-bold text-nlightblack mb-4">Informações</h2>
                 <div class="space-y-2 text-nlightblack">
                     <p class="text-base">
-                        <span class="font-bold">Curso:</span> <span class="text-npurplelight">{{ aluno.curso }}</span>
+                        <span class="font-bold">Curso:</span> <span class="text-npurplelight">{{ aluno.curso.nome }}</span>
                     </p>
                     <p class="text-base">
                         <span class="font-bold">Nível:</span> <span class="text-npurplelight">Graduação</span>
@@ -82,7 +86,7 @@
                         <span class="font-bold">Matrícula:</span> <span class="text-npurplelight">{{ user.matricula }}</span>
                     </p>
                     <p class="text-base">
-                        <span class="font-bold">IRA:</span> <span class="text-npurplelight">{{ aluno.ira }}</span>
+                        <span class="font-bold">IRA:</span> <span class="text-npurplelight">{{ ira }}</span>
                     </p>
                 </div>
             </div>
@@ -240,10 +244,8 @@
                                         </td>
                                         <td>
                                             <div class="w-full h-full">
-                                                <div
-                                                    class="flex items-center justify-center w-full rounded-full cursor-pointer">
-                                                    <a role="link" tabindex="0"
-                                                        class="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full">8</a>
+                                                <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                    <p class="text-base text-npurplelight  font-medium">8</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -265,8 +267,9 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
-                                                <p class="text-base text-npurplelight  font-medium">12</p>
+                                            <div class="flex items-center justify-center w-full rounded-full cursor-pointer">
+                                                <a role="link" tabindex="0"
+                                                        class="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full">12</a>
                                             </div>
                                         </td>
                                         <td>
