@@ -23,7 +23,7 @@ def getTurmasDoAluno(request):
     # TODO: Verificar se está logado
     # TODO: Verificar se é um aluno
   
-    turmas = getTurmasAtuaisUnsafe(request)
+    turmas = getTurmasAtuaisUnsafe(request.user)
 
     return turmas
 
@@ -48,7 +48,7 @@ def getAvisos(request):
     # TODO: Verificar se está logado    
     # TODO: Verificar se é um aluno
 
-    turmas = getTurmasAtuaisUnsafe(request)
+    turmas = getTurmasAtuaisUnsafe(request.user)
     avisos = Aviso.objects.filter(turma__in=turmas).order_by('-data')    
     return avisos
 
