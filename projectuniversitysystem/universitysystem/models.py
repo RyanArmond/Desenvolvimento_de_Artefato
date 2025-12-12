@@ -147,8 +147,7 @@ class Coordenador(models.Model):
         return f"{self.nome_completo} ({self.matricula})"
 
 class Disciplina(models.Model):
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  
-    
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)      
     nome = models.CharField(max_length=256)
     codigo = models.CharField(max_length=16)
     descricao = models.TextField()                   
@@ -159,7 +158,7 @@ class Disciplina(models.Model):
         ordering = ['curso__instituicao__nome', 'curso__nome', 'nome']
     
     def __str__(self):
-        return f"{self.nome} ({self.codigo})"
+        return f"{self.nome} ({self.codigo})"    
     
 
 class Turma(models.Model):
@@ -193,7 +192,7 @@ class Historico(models.Model):
         verbose_name_plural = 'Históricos'
     
     def __str__(self):
-        return f"{self.nome} - {self.numero}"
+        return f"Historico de {self.aluno}"
     
 class Aula(models.Model):
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)   
@@ -225,9 +224,7 @@ class InscricaoDeAluno(models.Model):
 
 class InscricaoDeProfessor(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)    
-        return f"Historico de {self.aluno}"
-    
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)            
     
 class ItemHistorico(models.Model):
     historico = models.ForeignKey(Historico, on_delete=models.CASCADE, related_name="itens")
