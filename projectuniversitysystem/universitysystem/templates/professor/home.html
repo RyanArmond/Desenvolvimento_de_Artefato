@@ -11,7 +11,7 @@
     <div class="col-span-12 lg:col-span-8 space-y-6">
 
         <div class="flex flex-col space-y-4">
-            <h2 class="text-4xl font-bold text-nlightblack">Disciplinas do Período</h2>
+            <h2 class="text-4xl font-bold text-nlightblack">Disciplinas Lecionadas do Período</h2>
 
             <span class="text-x1 font-medium text-nlightblack"> 2025.2 </span>
 
@@ -27,7 +27,7 @@
                     {% else %}
                     <p class="text-sm">Não há avisos cadastrados.</p>
                     {% endif %}
-                </div>
+                </div>  
 
             </div>
 
@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold text-nlightblack mb-2">
-                            <a href="{% url 'disciplina_detalhe' disciplina.id %}">
+                            <a href="">
                                 {{ disciplina.nome }}
                             </a>
                         </h3>
@@ -59,9 +59,7 @@
                 </div>
                 {% endfor %}
                 {% else %}
-                <p class="text-lg text-nlightblack p-6 bg-nwhite rounded-xl shadow-lg">Você não está matriculado em
-                    nenhuma
-                    disciplina neste período.</p>
+                <p class="text-lg text-nlightblack p-6 bg-nwhite rounded-xl shadow-lg">Você não está lecionando nenhuma disciplina neste semestre</p>
                 {% endif %}
             </div>
 
@@ -73,16 +71,13 @@
                 <h2 class="text-2xl font-bold text-nlightblack mb-4">Informações</h2>
                 <div class="space-y-2 text-nlightblack">
                     <p class="text-base">
-                        <span class="font-bold">Curso:</span> <span class="text-npurplelight">{{ aluno.curso }}</span>
+                        <span class="font-bold">Curso:</span> <span class="text-npurplelight">{{ professor.curso }}</span>
                     </p>
                     <p class="text-base">
-                        <span class="font-bold">Nível:</span> <span class="text-npurplelight">Graduação</span>
+                        <span class="font-bold">Nível:</span> <span class="text-npurplelight">Docente</span>
                     </p>
                     <p class="text-base">
                         <span class="font-bold">Matrícula:</span> <span class="text-npurplelight">{{ user.matricula }}</span>
-                    </p>
-                    <p class="text-base">
-                        <span class="font-bold">IRA:</span> <span class="text-npurplelight">{{ aluno.ira }}</span>
                     </p>
                 </div>
             </div>

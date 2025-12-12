@@ -143,7 +143,7 @@ class Professor(models.Model):
         
 
     def __str__(self):
-        return f"{self.user.get_full_name()} ({self.user.matricula})"
+        return f"{self.user.get_full_name()} "
 
     
 class Coordenador(models.Model):
