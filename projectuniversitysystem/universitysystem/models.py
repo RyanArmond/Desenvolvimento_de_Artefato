@@ -229,6 +229,16 @@ class InscricaoDeProfessor(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)            
 
+
+class Frequencia(models.Model):
+    aula = models.ForeignKey(Aula, on_delete=models.CASCADE)    
+
+
+class FrequenciaDeAula(models.Model):
+    frequenciaAssociada = models.ForeignKey(Frequencia, on_delete=models.CASCADE)
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)    
+    presente = models.BooleanField(default=False)
+
     
 class ItemHistorico(models.Model):
     historico = models.ForeignKey(Historico, on_delete=models.CASCADE, related_name="itens")

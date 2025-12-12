@@ -14,12 +14,21 @@ import logging
 import calendar
 from datetime import date
 from collections import defaultdict
+from logic.logic import *
+from logic.aluno.alunoLogic import *
+from logic.turma.turmaLogic import *
 
 
 def home(request):
     if not request.user.is_authenticated:
         return redirect("login")
-    
+
+    context = {
+        'usuario': request.user,        
+        'disciplinas': getTurmasDoAluno(request.user),
+        'avisos': getAvisos(request.user)[:5]
+    }
+
     return render(request, "home.html")
 
 
@@ -67,6 +76,7 @@ def login_view(request):
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
+
 
 @csrf_exempt
 def login_google_view(request):
@@ -149,6 +159,7 @@ def profile_view(request):
     context = {'user': user}
         
     return render(request, 'profile.html', context)
+
 
 def delete_foto_view(request):
     if not request.user.is_authenticated:
