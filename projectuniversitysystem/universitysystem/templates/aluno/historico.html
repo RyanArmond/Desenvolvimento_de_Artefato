@@ -7,9 +7,18 @@
     
     <div class="lg:col-span-2 space-y-8">
         
-        <div>
-            <h1 class="text-3xl font-bold text-nblack mb-2">Histórico Escolar</h1>
-            <p class="text-nlightblack">Consulte suas notas e desempenho acadêmico por período.</p>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end">
+            <div>
+                <h1 class="text-3xl font-bold text-nblack mb-2">Histórico Escolar</h1>
+                <p class="text-nlightblack">Consulte suas notas e desempenho acadêmico por período.</p>
+            </div>
+
+            <button onclick="window.print()" class="mt-4 md:mt-0 flex items-center space-x-2 text-npurple font-medium hover:text-[#6f5add] transition-colors cursor-pointer print:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                <span>Imprimir Histórico</span>
+            </button>
         </div>
 
         {% if not erro %}
@@ -111,4 +120,51 @@
 
         
 </div>
+
+```html
+<style>
+    @media print {
+        /* Esconde Header, Footer e o Botão de Imprimir */
+        header, footer, .print\:hidden {
+            display: none !important;
+        }
+
+        /* Ajusta margens e remove sombras para economizar tinta/ficar limpo */
+        body {
+            background-color: white;
+            color: black;
+        }
+        
+        .shadow-sm, .shadow-xl {
+            box-shadow: none !important;
+            border: 1px solid #ddd;
+        }
+
+        /* Força a impressão das cores de fundo (roxo, verde, vermelho) */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* Garante que o layout ocupe a largura total */
+        main {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+        
+        /* Ajusta o grid para o papel */
+        .grid {
+            display: block !important;
+        }
+        
+        /* Quebra de página segura para os cards */
+        .bg-nwhite {
+            break-inside: avoid;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
 {% endblock %}
+
