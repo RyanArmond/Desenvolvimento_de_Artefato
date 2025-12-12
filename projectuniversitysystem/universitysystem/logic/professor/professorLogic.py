@@ -26,3 +26,23 @@ def getTurmasDoProfessor(idUser):
     )                
     turmas = [matricula.turma for matricula in matriculas]    
     return turmas
+
+def professorTemPermissao(idTurma, idProfessor):
+    turma = get_object_or_404(Turma, id=idTurma)
+    professor = get_object_or_404(Professor, id=idProfessor)
+
+    inscricao = InscricaoDeProfessor.objects.filter(
+        professor=professor,
+        turma=turma
+    ).first()
+
+    if inscricao:
+        return True
+    else:
+        return False
+
+def alterarAula(idAula, novoTitulo, novaDescricao):
+    # TODO: Verificar se o professor tem permissão para alterar a aula
+
+    return
+    
