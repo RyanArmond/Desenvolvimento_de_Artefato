@@ -52,12 +52,12 @@ def getAvisos(request):
     avisos = Aviso.objects.filter(turma__in=turmas).order_by('-data')    
     return avisos
 
-def getAvisosDaTurma(request, idTurma):    
+def getAvisosDaTurma(idTurma):    
     turmaEsc = get_object_or_404(Turma, id=idTurma)
     avisos = Aviso.objects.filter(turma=turmaEsc).order_by('-data')
     return avisos
 
-def getInformacoes(request):
+def getInformacoesDoAluno(idAluno):
     # TODO: Verificar se está logado
     # TODO: Verificar se é um aluno
 
@@ -66,3 +66,14 @@ def getInformacoes(request):
     # TODO: Retornar curso do aluno
 
     return
+
+def matricularAluno(idUser, idCurso):
+    user = get_object_or_404(User, id=idUser)
+    aluno, created = Aluno.objects.get_or_create(usuario=user)
+
+    if created:
+        aluno.curso = get_object_or_404(Curso, id=idCurso)
+    aluno.status = StatusDeMatricula.ATIVA            
+    aluno.save()
+    return aluno
+

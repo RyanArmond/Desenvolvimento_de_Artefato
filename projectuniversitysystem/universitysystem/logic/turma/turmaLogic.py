@@ -80,3 +80,57 @@ def getAulas(idTurma):
     turma = get_object_or_404(Turma, id=idTurma)
     aulas = Aula.objects.filter(turma=turma).order_by('data')
     return aulas
+
+def inscreverAluno(idTurma, idAluno):
+    # OBS: Aceita o inscrição do aluno diretamente
+    turma = get_object_or_404(Turma, id=idTurma)
+    aluno = get_object_or_404(Aluno, id=idAluno)
+
+    inscricao, created = InscricaoDeAluno.objects.get_or_create(
+        aluno=aluno,
+        turma=turma,        
+    )
+
+    if not created:
+        inscricao.status = StatusDeMatriculaDeTurma.ACEITO
+        inscricao.save()
+
+    return inscricao
+
+def cancelarInscricaoAluno(idTurma, idAluno):
+    turma = get_object_or_404(Turma, id=idTurma)
+    aluno = get_object_or_404(Aluno, id=idAluno)
+
+    inscricao = get_object_or_404(InscricaoDeAluno,
+        aluno=aluno,
+        turma=turma
+    )
+
+    inscricao.delete()
+
+    return 
+
+def inscreverProfessor(idTurma, idProfessor):
+    turma = get_object_or_404(Turma, id=idTurma)
+    professor = get_object_or_404(Professor, id=idProfessor)
+
+    inscricao, created = InscricaoDeProfessor.objects.get_or_create(
+        professor=professor,
+        turma=turma,        
+    )
+
+    return inscricao
+
+def cancelarInscricaoProfessor(idTurma, idProfessor):
+    turma = get_object_or_404(Turma, id=idTurma)
+    professor = get_object_or_404(Professor, id=idProfessor)
+
+    inscricao = get_object_or_404(InscricaoDeProfessor,
+        professor=professor,
+        turma=turma
+    )
+
+    inscricao.delete()
+
+    return
+
