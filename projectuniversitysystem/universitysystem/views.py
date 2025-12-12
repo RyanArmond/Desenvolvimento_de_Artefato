@@ -150,6 +150,7 @@ def profile_view(request):
         
     return render(request, 'profile.html', context)
 
+
 def delete_foto_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -170,33 +171,39 @@ def historico_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
     
-    aluno = get_object_or_404(Aluno, user=request.user)
+    aluno = Aluno.objects.filter(user=request.user).first()
     
-    try:
-        historico = Historico.objects.get(aluno=aluno)
-        itens = ItemHistorico.objects.filter(historico=historico).select_related('disciplina').order_by('-periodo_cursado')
-    except Historico.DoesNotExist:
-        historico = None
-        itens = []
+    if aluno:
+        try:
+            historico = Historico.objects.get(aluno=aluno)
+            itens = ItemHistorico.objects.filter(historico=historico).select_related('disciplina').order_by('-periodo_cursado')
+        except Historico.DoesNotExist:
+            historico = None
+            itens = []
 
-    historico_agrupado = {}
-    soma_notas = 0
-    total_disciplinas = 0
+        historico_agrupado = {}
+        soma_notas = 0
+        total_disciplinas = 0
 
-    for item in itens:
-        if item.periodo_cursado not in historico_agrupado:
-            historico_agrupado[item.periodo_cursado] = []
-        historico_agrupado[item.periodo_cursado].append(item)
-        
-        soma_notas += item.media
-        total_disciplinas += 1
+        for item in itens:
+            if item.periodo_cursado not in historico_agrupado:
+                historico_agrupado[item.periodo_cursado] = []
+            historico_agrupado[item.periodo_cursado].append(item)
+            
+            soma_notas += item.media
+            total_disciplinas += 1
 
-    ira = round(soma_notas / total_disciplinas, 2) if total_disciplinas > 0 else 0.0
+        ira = round(soma_notas / total_disciplinas, 2) if total_disciplinas > 0 else 0.0
 
-    context = {
-        'aluno': aluno,
-        'historico_agrupado': historico_agrupado,
-        'ira': ira,
-    }
-    
+        context = {
+            'aluno': aluno,
+            'historico_agrupado': historico_agrupado,
+            'ira': ira,
+        }
+    else:
+        context = {
+            'erro': 'Perfil de aluno NÃO ENCONTRADO'
+        }
+
+
     return render(request, 'historico.html', context)

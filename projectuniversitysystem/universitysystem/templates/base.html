@@ -23,7 +23,7 @@
     </script>
     <title>{% block title %} Site {% endblock %}</title>        
 </head>  
-<body class="bg-nbackpurple text-nblack">
+<body class="bg-nbackpurple text-nblack min-h-screen flex flex-col">
     <header class="bg-nwhite p-4">
         <div class="flex items-center justify-between relative space-x-4 mx-40">
             
@@ -77,16 +77,9 @@
             </div>
 
             <div class="">
-            <a href="{% url 'home_view' %}" 
-                class="text-lg font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
-                Matrícula
-            </a>
-            </div>
-
-            <div class="">
             <a href="{% url 'profile' %}" class="flex items-center space-x-4 relative before:absolute before:-top-4 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
                 <div class="flex flex-col">
-                    <span class="text-base font-medium text-nblack">{{ user.first_name}} {{ user.last_name }}</span>
+                    <span class="text-base font-medium text-nblack">{{ user.get_full_name|default:user.username }}</span>
                     <span class="text-base font-medium text-npurple -mt-1">Perfil</span>
                 </div>
                 <div class="w-10 h-10 bg-npurple rounded-full flex-shrink-0 relative">
@@ -100,7 +93,7 @@
 
         </div>
     </header>
-    <main class="p-4 ml-40 mr-40">
+    <main class="p-4 ml-40 mr-40 flex-grow">
         {% block content %}
         <!-- Conteúdo -->
         {% endblock %}

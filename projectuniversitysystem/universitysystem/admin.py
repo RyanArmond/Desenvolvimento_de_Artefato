@@ -47,7 +47,7 @@ class DisciplinaAdmin(admin.ModelAdmin):
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('status', 'curso')
+    list_display = ('user__first_name', 'status', 'curso')
     list_filter = ('status', 'curso')
     search_fields = ('matricula', 'cpf')
     autocomplete_fields = ['user'] 

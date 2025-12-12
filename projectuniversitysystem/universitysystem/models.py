@@ -160,9 +160,10 @@ class Disciplina(models.Model):
     
 
 class Turma(models.Model):
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, null=True)
+
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
     numero = models.IntegerField(verbose_name="Número")    
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     periodo = models.CharField(verbose_name="Período")
     
     status = models.CharField(
