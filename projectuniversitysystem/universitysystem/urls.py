@@ -13,4 +13,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('notas/', views.notas_view, name="notas_view"),
     path('profile/', views.profile_view, name='profile'),
+    path('ensino/historico/', views.historico_view, name='historico_view'),
 ]
