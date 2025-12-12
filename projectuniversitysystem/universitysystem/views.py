@@ -252,6 +252,22 @@ def delete_foto_view(request):
         
     return redirect('profile')
 
+def change_foto_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
+    if request.method == "POST":
+    
+        user = request.user
+        
+        nova_foto = request.FILES.get('foto')
+        if nova_foto:
+            if user.foto:
+                user.foto.delete()
+            user.foto = nova_foto
+            user.save()
+        
+    return redirect('profile')
 
 def historico_view(request):
     if not request.user.is_authenticated:

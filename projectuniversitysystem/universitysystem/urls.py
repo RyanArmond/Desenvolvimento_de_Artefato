@@ -15,4 +15,5 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('ensino/historico/', views.historico_view, name='historico_view'),
     path('delete_foto/', views.delete_foto_view, name='delete_foto'),
+    path('change_foto/', views.change_foto_view, name='change_foto'),
 ]
