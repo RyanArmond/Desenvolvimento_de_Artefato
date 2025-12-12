@@ -89,10 +89,12 @@
                     <span class="text-base font-medium text-nblack">{{ user.first_name}} {{ user.last_name }}</span>
                     <span class="text-base font-medium text-npurple -mt-1">Perfil</span>
                 </div>
+                <div class="w-10 h-10 bg-npurple rounded-full flex-shrink-0 relative">
                 {% if user.foto %}
                     <img src="{{ user.foto.url }}" 
                     alt="Profile Picture" class="w-10 h-10 rounded-full">
-                {% endif %}    
+                {% endif %}
+                </div>    
             </a>
             </div>
 

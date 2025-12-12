@@ -150,6 +150,21 @@ def profile_view(request):
         
     return render(request, 'profile.html', context)
 
+def delete_foto_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
+    if request.method == "POST":
+    
+        user = request.user
+        
+        if user.foto:
+            user.foto.delete()
+            user.foto = None
+            user.save()
+        
+    return redirect('profile')
+
 
 def historico_view(request):
     if not request.user.is_authenticated:

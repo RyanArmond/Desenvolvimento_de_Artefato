@@ -31,15 +31,17 @@ UniversitySystem - Meu Perfil
             </h2>
 
             <div class="flex space-x-3">
-                <button
-                    class="bg-npurple hover:bg-npurplelight text-nwhite font-medium py-2 px-4 rounded-md transition duration-200 shadow-md">
-                    Editar foto de perfil
-                </button>
+
+                <form method="POST" action="{% url 'delete_foto' %}">
+                    {% csrf_token %}
+                    <button class="bg-npurple hover:bg-npurplelight text-nwhite font-medium py-2 px-4 rounded-md transition duration-200 shadow-md" type="submit" onclick="return confirm('Tem certeza que quer deletar?')">Remover foto</button>
+                </form>
 
                 <button
                     class="bg-transparent hover:bg-nbackpurple text-npurple border border-npurple font-medium py-2 px-4 rounded-md transition duration-200">
-                    Remover foto
+                    Editar foto de perfil
                 </button>
+
             </div>
         </div>
     </div>

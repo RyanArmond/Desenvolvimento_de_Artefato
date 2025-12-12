@@ -14,4 +14,5 @@ urlpatterns = [
     path('notas/', views.notas_view, name="notas_view"),
     path('profile/', views.profile_view, name='profile'),
     path('ensino/historico/', views.historico_view, name='historico_view'),
+    path('delete_foto/', views.delete_foto_view, name='delete_foto'),
 ]
