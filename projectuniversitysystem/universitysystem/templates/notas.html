@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Minhas Notas {% endblock %}
+
+{% block content %}
+<div class="flex flex-col space-y-8 pb-10">
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-4">
+        <div>
+            <h1 class="text-3xl font-bold text-nblack">Relatório de Notas</h1>
+            <p class="text-nlightblack mt-1">
+                Aluno(a): <span class="font-semibold text-npurple">{{ aluno.nome_completo|default:user.username }}</span>
+            </p>
+            <p class="text-nlightblack text-sm">
+                Matrícula: {{ aluno.matricula }} | Curso: {{ aluno.curso.nome }}
+            </p>
+        </div>
+        
+        <button onclick="window.print()" class="mt-4 md:mt-0 flex items-center space-x-2 text-npurple font-medium hover:text-[#6f5add] transition-colors cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            <span>Imprimir Boletim</span>
+        </button>
+    </div>
+
+    {% if erro %}
+        <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
+            <p class="text-gray-500">{{ erro }}</p>
+        </div>
+    {% endif %}
+
+    {% for periodo, lista_notas in boletim.items %}
+    
+    <div class="bg-nwhite rounded-2xl shadow-sm overflow-hidden animate-fade-in-up">
+        
+        <div class="bg-gradient-to-r from-npurple to-npurplelight px-6 py-3 flex justify-between items-center">
+            <h2 class="text-white font-bold text-lg tracking-wide">Período {{ periodo }}</h2>
+            <span class="bg-white/20 text-white text-xs px-2 py-1 rounded">Regular</span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-100 text-sm">
+                        <th class="p-4 font-semibold text-nlightblack w-24">Código</th>
+                        <th class="p-4 font-semibold text-nlightblack">Disciplina</th>
+                        <th class="p-4 font-semibold text-nlightblack text-center w-32">Média Final</th>
+                        <th class="p-4 font-semibold text-nlightblack text-center w-32">Situação</th>
+                    </tr>
+                </thead>
+                <tbody class="text-nblack">
+                    {% for item in lista_notas %}
+                    <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                        <td class="p-4 font-mono text-sm text-gray-500">
+                            {{ item.disciplina.codigo }}
+                        </td>
+                        
+                        <td class="p-4 font-medium">
+                            {{ item.disciplina.nome }}
+                        </td>
+
+                        <td class="p-4 text-center font-bold">
+                            {% if item.media >= 5 %}
+                                <span class="text-green-600">{{ item.media }}</span>
+                            {% else %}
+                                <span class="text-red-500">{{ item.media }}</span>
+                            {% endif %}
+                        </td>   
+
+                        <td class="p-4 text-center">
+                            {% if item.media >= 5 %}
+                                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-semibold">APROVADO</span>
+                            {% else %}
+                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">REPROVADO</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% empty %}
+        {% if not erro %}
+        <div class="text-center py-10 text-gray-500">
+            Nenhuma disciplina cursada encontrada.
+        </div>
+        {% endif %}
+    {% endfor %}
+
+</div>
+
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.4s ease-out forwards;
+    }
+</style>
+{% endblock %}

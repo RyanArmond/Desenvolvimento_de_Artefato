@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Restaurante Universitário {% endblock %}
+
+{% block content %}
+<div class="flex flex-col space-y-6">
+
+    <h1 class="text-2xl font-semibold text-nblack mt-4 mb-2">Restaurante</h1>
+
+    {% if restaurante %}
+    
+    <div class="bg-nwhite rounded-2xl p-10 shadow-sm flex flex-col items-center">
+        
+        <h2 class="text-4xl font-semibold text-nblack mb-12">
+            Cardápio do Dia - {{ restaurante.instituicao.sigla }}
+        </h2>
+
+        <div class="w-full max-w-5xl space-y-8">
+
+            <div class="flex flex-row items-center space-x-6">
+                <div class="bg-npurple w-64 h-16 rounded-lg flex items-center justify-center space-x-3 shrink-0 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nwhite" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span class="text-nwhite text-xl font-medium">Café da Manhã</span>
+                </div>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.cafe_manha|linebreaks }}
+                </div>
+            </div>
+
+            <div class="flex flex-row items-center space-x-6">
+                <div class="bg-npurple w-64 h-16 rounded-lg flex items-center justify-center space-x-3 shrink-0 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nwhite" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span class="text-nwhite text-xl font-medium">Almoço</span>
+                </div>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.almoco|linebreaks }}
+                </div>
+            </div>
+
+            <div class="flex flex-row items-center space-x-6">
+                <div class="bg-npurple w-64 h-16 rounded-lg flex items-center justify-center space-x-3 shrink-0 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-nwhite" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span class="text-nwhite text-xl font-medium">Jantar</span>
+                </div>
+                <div class="text-nblack font-medium leading-relaxed">
+                    {{ restaurante.jantar|linebreaks }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w-full max-w-5xl mt-12 space-y-2 text-base font-semibold">
+            <p class="text-nblack">
+                Valores: <span class="text-npurple">{{ restaurante.precos|linebreaksbr }}</span>
+            </p>
+            <p class="text-nblack">
+                Horários: <span class="text-npurple">{{ restaurante.horario_funcionamento|linebreaksbr }}</span>
+            </p>
+        </div>
+
+    </div>
+
+    {% else %}
+    <div class="bg-white p-10 rounded-2xl shadow text-center">
+        <h2 class="text-xl text-red-500 font-bold">Aviso</h2>
+        <p class="text-gray-600 mt-2">
+            {{ erro|default:"Não foi possível carregar as informações do restaurante." }}
+        </p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

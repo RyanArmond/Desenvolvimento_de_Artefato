@@ -26,8 +26,12 @@ SECRET_KEY = os.getenv("SECRET_KEY", "chave_de_desenvolvimento")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "FALSE") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 
 # Application definition
 
@@ -84,6 +88,11 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+GOOGLE_OAUTH_CLIENT_ID="932850632858-qpckuf3a3jbd7f6eg5rke9mvilcve3l0.apps.googleusercontent.com"
+
+SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
