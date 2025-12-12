@@ -148,7 +148,7 @@ def profile_view(request):
     user = request.user
     context = {'user': user}
         
-    return render(request, 'perfil.html', context)
+    return render(request, 'profile.html', context)
 
 
 def historico_view(request):
