@@ -6,9 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, logout, authenticate
 from universitysystem.models import *
 
-def getTurmasDoCurso(request, idCurso):
-    # TODO: Verificar se está logado    
-    
+def getTurmasDoCurso(request, idCurso):    
     try:
         curso = Curso.objects.get(id=idCurso)
     except Curso.DoesNotExist:
