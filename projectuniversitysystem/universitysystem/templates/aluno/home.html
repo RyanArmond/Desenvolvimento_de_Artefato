@@ -1,0 +1,378 @@
+{% extends "aluno/base.html" %}
+{% load static %}
+
+{% block title %} UniversitySystem - Início {% endblock %}
+
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="grid grid-cols-12 gap-6 mt-8 mx-32">
+
+    <div class="col-span-12 lg:col-span-8 space-y-6">
+
+        <div class="flex flex-col space-y-4">
+            <h2 class="text-4xl font-bold text-nlightblack">Minhas disciplinas</h2>
+
+            <span class="text-x1 font-medium text-nlightblack"> 2025.2 - Turno Matutino/Vespertino </span>
+
+
+            <div class="bg-npurple text-nwhite p-4 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold">Avisos</h3>
+                {% if avisos %}
+                {% for aviso in avisos %}
+                <div class="mt-2">
+                    <p class="text-sm">- {{ aviso.data|date:"d/m/Y" }} {{ aviso.turma }}</p>
+                    <p class="text-sm">- {{ aviso.descricao }}</p>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-sm">Não há avisos cadastrados.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="space-y-6">
+
+                {% if disciplinas %}
+                {% for disciplina in disciplinas %}
+                <div
+                    class="bg-nwhite p-6 rounded-xl shadow-lg transition duration-300 ease-in-out hover:shadow-xl hover:scale-[1.005] flex space-x-6">
+                    <div class="w-28 h-28 bg-npurple rounded-lg flex-shrink-0">
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-nlightblack mb-2">
+                            <a href="{% url 'disciplina_detalhe' disciplina.id %}">
+                                {{ disciplina.nome }}
+                            </a>
+                        </h3>
+                        <p class="text-base text-nlightblack mb-3">
+                            {{ disciplina.descricao }}
+                        </p>
+                        <div class="flex space-x-2 flex-wrap gap-y-2">
+
+                            <span class="bg-npurplelight text-nwhite text-xs font-semibold px-3 py-1 rounded-full">
+                                Professor(a) {{ disciplina.professor }}
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-lg text-nlightblack p-6 bg-nwhite rounded-xl shadow-lg">Você não está matriculado em
+                    nenhuma
+                    disciplina neste período.</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="col-span-12 lg:col-span-4 space-y-8">
+
+            <div class="p-6 bg-nwhite rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-nlightblack mb-4">Informações</h2>
+                <div class="space-y-2 text-nlightblack">
+                    <p class="text-base">
+                        <span class="font-bold">Curso:</span> <span class="text-npurplelight">{{ aluno.curso }}</span>
+                    </p>
+                    <p class="text-base">
+                        <span class="font-bold">Nível:</span> <span class="text-npurplelight">Graduação</span>
+                    </p>
+                    <p class="text-base">
+                        <span class="font-bold">Matrícula:</span> <span class="text-npurplelight">{{ user.matricula }}</span>
+                    </p>
+                    <p class="text-base">
+                        <span class="font-bold">IRA:</span> <span class="text-npurplelight">{{ aluno.ira }}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-6 bg-nwhite rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-nlightblack mb-4">Agenda</h2>
+
+                <div class="space-y-3">
+
+                    {% if compromisso %}
+                    {% for compromisso in compromissos %}
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="text-lg font-bold text-nwhite bg-npurple px-3 py-1 rounded-md w-12 text-center flex-shrink-0">
+                            {{ compromisso.data }}
+                        </div>
+                        <div
+                            class="text-sm font-medium text-nwhite bg-npurple px-2 py-1 rounded-md flex-grow text-center truncate">
+                            {{ compromisso.titulo }}
+                        </div>
+                        <div class="text-sm font-medium text-nwhite bg-npurple px-2 py-1 rounded-md flex-shrink-0">
+                            {{ compromisso.hora_inicio }} - {{ compromisso.hora_fim }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-sm text-gray-500">Nenhum evento agendado.</p>
+                    {% endif %}
+                </div>
+
+                <div class="max-w-400px w-full shadow-lg">
+                    <div class="md:p-8 p-5 bg-white rounded-t">
+                        <div class="px-4 flex items-center justify-between">
+                            <span tabindex="0" class="focus:outline-none  text-base font-bold  "> Dezembro
+                            </span>
+                            <div class="flex items-center">
+                                <button aria-label="calendar backward"
+                                    class="focus:text-gray-400 hover:text-gray-400 text-npurplelight ">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <polyline points="15 6 9 12 15 18" />
+                                    </svg>
+                                </button>
+                                <button aria-label="calendar forward"
+                                    class="focus:text-gray-400 hover:text-gray-400 ml-3 text-npurplelight ">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler  icon-tabler-chevron-right" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <polyline points="9 6 15 12 9 18" />
+                                    </svg>
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-8 overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    D</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    S</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    T</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    Q</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    Q</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    S</p>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="w-full flex justify-center">
+                                                <p class="text-base font-medium text-center text-npurplelight ">
+                                                    S </p>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center"></div>
+                                        </td>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center"></div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center"></div>
+                                        </td>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">1</p>
+                                            </div>
+                                        </td>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">2</p>
+                                            </div>
+                                        </td>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">3</p>
+                                            </div>
+                                        </td>
+                                        <td class="pt-6">
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">4</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">5</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">6</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">7</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="w-full h-full">
+                                                <div
+                                                    class="flex items-center justify-center w-full rounded-full cursor-pointer">
+                                                    <a role="link" tabindex="0"
+                                                        class="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full">8</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">9</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">10</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">11</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">12</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">13</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">14</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">15</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">16</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">17</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">18</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">19</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">20</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">21</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">22</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">23</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">24</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight font-medium">25</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">26</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">27</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">28</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">29</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="px-2 py-2 cursor-pointer flex w-full justify-center">
+                                                <p class="text-base text-npurplelight  font-medium">30</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    {% endblock %}

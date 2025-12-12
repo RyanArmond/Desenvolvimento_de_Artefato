@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "professor/base.html" %}
 {% load static %}
 
 {% block title %} UniversitySystem - Início {% endblock %}
@@ -79,8 +79,7 @@
                         <span class="font-bold">Nível:</span> <span class="text-npurplelight">Graduação</span>
                     </p>
                     <p class="text-base">
-                        <span class="font-bold">Matrícula:</span> <span class="text-npurplelight">{{
-                            user.aluno.matricula }}</span>
+                        <span class="font-bold">Matrícula:</span> <span class="text-npurplelight">{{ user.matricula }}</span>
                     </p>
                     <p class="text-base">
                         <span class="font-bold">IRA:</span> <span class="text-npurplelight">{{ aluno.ira }}</span>
@@ -376,5 +375,4 @@
         </div>
 
     </div>
-    {% endif %}
     {% endblock %}

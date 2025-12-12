@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'aluno/base.html' %}
 {% load static %}
 
 {% block title %} Minhas Notas {% endblock %}
@@ -10,10 +10,10 @@
         <div>
             <h1 class="text-3xl font-bold text-nblack">Relatório de Notas</h1>
             <p class="text-nlightblack mt-1">
-                Aluno(a): <span class="font-semibold text-npurple">{{ aluno.nome_completo|default:user.username }}</span>
+                Aluno(a): <span class="font-semibold text-npurple">{{ user.get_full_name|default:user.username }}</span>
             </p>
             <p class="text-nlightblack text-sm">
-                Matrícula: {{ aluno.matricula }} | Curso: {{ aluno.curso.nome }}
+                Matrícula: {{ user.matricula }} | Curso: {{ curso.nome }}
             </p>
         </div>
         
