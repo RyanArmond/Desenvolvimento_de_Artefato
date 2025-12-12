@@ -125,10 +125,24 @@ class Aluno(models.Model):
     def __str__(self):
         return f"{self.curso} ({self.status})"
 
+class Professor(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)    
+    email = models.EmailField(unique=True, verbose_name="E-mail")
+    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")        
+
+    def __str__(self):
+        return f"{self.nome_completo} ({self.matricula})"
+    
+class Coordenador(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)    
+    email = models.EmailField(unique=True, verbose_name="E-mail")
+    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")        
+
+    def __str__(self):
+        return f"{self.nome_completo} ({self.matricula})"
 
 class Disciplina(models.Model):
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  
-    
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)      
     nome = models.CharField(max_length=256)
     codigo = models.CharField(max_length=16)
     descricao = models.TextField()                   
@@ -139,12 +153,13 @@ class Disciplina(models.Model):
         ordering = ['curso__instituicao__nome', 'curso__nome', 'nome']
     
     def __str__(self):
-        return f"{self.nome} ({self.codigo})"
+        return f"{self.nome} ({self.codigo})"    
     
 
 class Turma(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da Turma")
-    numero = models.IntegerField(verbose_name="Número")
+    numero = models.IntegerField(verbose_name="Número")    
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     periodo = models.CharField(verbose_name="Período")
     
     status = models.CharField(
@@ -174,6 +189,37 @@ class Historico(models.Model):
     def __str__(self):
         return f"Historico de {self.aluno}"
     
+class Aula(models.Model):
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)   
+    titulo = models.CharField(max_length=256)
+    descricao = models.TextField()
+    data = models.DateField() 
+
+class Anexo(models.Model):
+    aula = models.ForeignKey(Aula, on_delete=models.CASCADE)   
+    nome = models.TextField()
+    arquivo_url = models.URLField(max_length=512)    
+
+class Aviso(models.Model):
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)   
+    titulo = models.CharField(max_length=256)
+    descricao = models.TextField()
+    data = models.DateField()
+
+class InscricaoDeAluno(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    
+    status = models.CharField(
+        max_length=2,
+        choices=StatusDeMatriculaDeTurma.choices,
+        default=StatusDeMatriculaDeTurma.SOLICITACAO,
+        verbose_name="Status de inscrição"
+    )
+
+class InscricaoDeProfessor(models.Model):
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)            
     
 class ItemHistorico(models.Model):
     historico = models.ForeignKey(Historico, on_delete=models.CASCADE, related_name="itens")
