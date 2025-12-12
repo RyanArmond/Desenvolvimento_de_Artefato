@@ -29,7 +29,7 @@ def home(request):
             'disciplinas': getTurmasDoAluno(request),
             'avisos': getAvisos(request)[:5]
         }
-        return render(request, "aluno/home.html")
+        return render(request, "aluno/home.html", context)
     elif request.user.funcao == "PR":
         return render(request, "professor/home.html") 
     else:
