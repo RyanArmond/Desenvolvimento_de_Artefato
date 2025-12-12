@@ -21,15 +21,14 @@ from universitysystem.logic.turma.turmaLogic import *
 
 def home(request):
     if not request.user.is_authenticated:
-        return redirect("login")
-
-    context = {
-        'usuario': request.user,        
-        'disciplinas': getTurmasDoAluno(request),
-        'avisos': getAvisos(request)[:5]
-    }
+        return redirect("login")    
     
-    if request.user.funcao == "AL":
+    if request.user.funcao == "AL":        
+        context = {
+            'usuario': request.user,        
+            'disciplinas': getTurmasDoAluno(request),
+            'avisos': getAvisos(request)[:5]
+        }
         return render(request, "aluno/home.html")
     elif request.user.funcao == "PR":
         return render(request, "professor/home.html") 
