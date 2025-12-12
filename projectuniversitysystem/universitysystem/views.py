@@ -19,7 +19,7 @@ from collections import defaultdict
 def home(request):
     if not request.user.is_authenticated:
         return redirect("login")
-
+    
     return render(request, "home.html")
 
 
@@ -130,6 +130,8 @@ def notas_view(request):
         context['erro'] = "Perfil de aluno não encontrado."
 
     return render(request, 'notas.html', context)
+
+
 def profile_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -142,4 +144,40 @@ def profile_view(request):
         messages.error(request, "Aluno não encontrado. ")
         return redirect("home_view")
         
-    return render(request, 'profile.html', context)
+    return render(request, 'perfil.html', context)
+
+
+def historico_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
+    aluno = get_object_or_404(Aluno, user=request.user)
+    
+    try:
+        historico = Historico.objects.get(aluno=aluno)
+        itens = ItemHistorico.objects.filter(historico=historico).select_related('disciplina').order_by('-periodo_cursado')
+    except Historico.DoesNotExist:
+        historico = None
+        itens = []
+
+    historico_agrupado = {}
+    soma_notas = 0
+    total_disciplinas = 0
+
+    for item in itens:
+        if item.periodo_cursado not in historico_agrupado:
+            historico_agrupado[item.periodo_cursado] = []
+        historico_agrupado[item.periodo_cursado].append(item)
+        
+        soma_notas += item.media
+        total_disciplinas += 1
+
+    ira = round(soma_notas / total_disciplinas, 2) if total_disciplinas > 0 else 0.0
+
+    context = {
+        'aluno': aluno,
+        'historico_agrupado': historico_agrupado,
+        'ira': ira,
+    }
+    
+    return render(request, 'historico.html', context)

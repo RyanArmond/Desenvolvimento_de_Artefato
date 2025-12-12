@@ -41,11 +41,25 @@
             </a>
             </div>
 
-            <div class="">
-            <a href="{% url 'home_view' %}" 
-                class="text-lg font-medium text-nblack relative before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
-                Ensino
-            </a>
+            <div class="relative group h-full flex items-center">
+                <button class="text-lg font-medium text-nblack relative flex items-center gap-1 cursor-pointer
+                               before:absolute before:-top-6 before:w-0 before:h-1 before:bg-npurple before:transition-all group-hover:before:w-full">
+                    Ensino
+                    <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div class="absolute left-0 top-full pt-6 hidden group-hover:block z-50 min-w-[200px]">
+                    <div class="bg-nwhite rounded-lg shadow-xl border border-gray-100 py-2 overflow-hidden">
+                        <a href="{% url 'historico_view' %}" class="flex items-center px-4 py-3 text-npurple hover:bg-nbackpurple transition-colors font-medium">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Histórico
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="">
@@ -72,7 +86,7 @@
             <div class="">
             <a href="{% url 'profile' %}" class="flex items-center space-x-4 relative before:absolute before:-top-4 before:w-0 before:h-1 before:bg-npurple before:transition-all hover:before:w-full">
                 <div class="flex flex-col">
-                    <span class="text-base font-medium text-nblack">Username</span>
+                    <span class="text-base font-medium text-nblack">{{ user.get_full_name|default:user.username }}</span>
                     <span class="text-base font-medium text-npurple -mt-1">Perfil</span>
                 </div>
                 <img src="{% static 'img/pic1.svg' %}" 
