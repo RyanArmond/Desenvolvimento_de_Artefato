@@ -22,6 +22,10 @@ UniversitySystem - Meu Perfil
         <div class="w-48 h-48 bg-npurple rounded-full flex-shrink-0 relative">
             {% if user.foto %}
             <img src="{{ user.foto.url }}" alt="Foto do Perfil" class="w-full h-full object-cover rounded-full">
+            {% else %}
+                <div class="w-full h-full flex items-center justify-center text-nwhite font-bold text-6xl">
+                    {{ user.first_name|slice:":1"|upper }}
+                </div>
             {% endif %}
         </div>
 
@@ -34,17 +38,23 @@ UniversitySystem - Meu Perfil
                 {% endif %}
             </h2>
 
-            <div class="flex space-x-3">
+            <div class="flex space-x-3 items-center">
 
                 <form method="POST" action="{% url 'delete_foto' %}">
                     {% csrf_token %}
-                    <button class="bg-npurple hover:bg-npurplelight text-nwhite font-medium py-2 px-4 rounded-md transition duration-200 shadow-md" type="submit" onclick="return confirm('Tem certeza que quer deletar?')">Remover foto</button>
+                    <button class="bg-npurple text-nwhite hover:bg-npurplelight font-medium py-2 px-4 rounded-md transition duration-200" type="submit" onclick="return confirm('Tem certeza que quer deletar?')">Remover foto</button>
                 </form>
 
-                <button
-                    class="bg-transparent hover:bg-nbackpurple text-npurple border border-npurple font-medium py-2 px-4 rounded-md transition duration-200">
-                    Editar foto de perfil
-                </button>
+                <form method="post" enctype="multipart/form-data" action="{% url 'change_foto' %}">
+                    {% csrf_token %}
+                    
+                    <label for="foto" class="bg-transparent text-npurple hover:bg-npurple hover:text-nwhite border border-npurple font-medium py-2 px-4 rounded-md transition duration-200 ">
+                        Escolher arquivo
+                    </label>
+                    <input type="file" name="foto" accept="image/*" onchange="this.form.submit()" id="foto" class="hidden">
+                
+                </form>
+
 
             </div>
         </div>
