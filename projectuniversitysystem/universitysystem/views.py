@@ -14,9 +14,9 @@ import logging
 import calendar
 from datetime import date
 from collections import defaultdict
-from logic.logic import *
-from logic.aluno.alunoLogic import *
-from logic.turma.turmaLogic import *
+from universitysystem.logic import logic
+from universitysystem.logic.aluno.alunoLogic import *
+from universitysystem.logic.turma.turmaLogic import *
 
 
 def home(request):
@@ -25,8 +25,8 @@ def home(request):
 
     context = {
         'usuario': request.user,        
-        'disciplinas': getTurmasDoAluno(request.user),
-        'avisos': getAvisos(request.user)[:5]
+        'disciplinas': getTurmasDoAluno(request),
+        'avisos': getAvisos(request)[:5]
     }
     
     if request.user.funcao == "AL":
