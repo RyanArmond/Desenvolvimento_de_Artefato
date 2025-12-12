@@ -70,3 +70,13 @@ def iniciarTurma(idTurma):
     turma.save()
     return turma
 
+def getProfessores(idTurma):
+    turma = get_object_or_404(Turma, id=idTurma)
+    inscricoes = InscricaoDeProfessor.objects.filter(turma=turma)
+    professores = [inscricao.professor for inscricao in inscricoes]
+    return professores
+
+def getAulas(idTurma):
+    turma = get_object_or_404(Turma, id=idTurma)
+    aulas = Aula.objects.filter(turma=turma).order_by('data')
+    return aulas
