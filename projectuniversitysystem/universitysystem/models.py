@@ -123,16 +123,27 @@ class Aluno(models.Model):
         verbose_name_plural = 'Alunos'
     
     def __str__(self):
-        return f"{self.curso} ({self.status})"
+        return f"{self.user.get_full_name()} - {self.curso.nome}"
 
 
 class Professor(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)    
-    email = models.EmailField(unique=True, verbose_name="E-mail")
-    nome_completo = models.CharField(max_length=255, verbose_name="Nome Completo")        
+    curso = models.ForeignKey(Curso, on_delete=models.PROTECT, null=True, verbose_name="Curso")
+
+    status = models.CharField(
+        max_length=1,
+        choices=StatusDeMatricula.choices,
+        default=StatusDeMatricula.ATIVA,
+        verbose_name="Status da Matrícula"
+    )
+
+    class Meta:
+        verbose_name = "Professor"
+        verbose_name_plural = "Professores"
+        
 
     def __str__(self):
-        return f"{self.nome_completo} ({self.matricula})"
+        return f"{self.user.get_full_name()} ({self.user.matricula})"
 
     
 class Coordenador(models.Model):

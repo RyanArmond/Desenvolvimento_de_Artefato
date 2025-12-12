@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends template_base %}
 {% load static %}
 
 {% block title %}
@@ -27,7 +27,11 @@ UniversitySystem - Meu Perfil
 
         <div class="pt-6">
             <h2 class="text-3xl font-bold text-nblack mb-4">
-                Aluno(a): {{ user.first_name }} {{ user.last_name }}
+                {% if not user.funcao == "AD"%}
+                    {{ user.get_funcao_display }}(a): {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.get_funcao_display }}: {{ user.first_name }} {{ user.last_name }}
+                {% endif %}
             </h2>
 
             <div class="flex space-x-3">

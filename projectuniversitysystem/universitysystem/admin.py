@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import (
     Usuario, Aluno, Instituicao, Curso, Disciplina, Turma,
     Historico, ItemHistorico, RestauranteUniversitario,
-    CalendarioAcademico, Compromisso
+    CalendarioAcademico, Compromisso, Professor
 )
 
 # Register your admins here.
@@ -47,6 +47,14 @@ class DisciplinaAdmin(admin.ModelAdmin):
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
+    list_display = ('user__first_name', 'status', 'curso')
+    list_filter = ('status', 'curso')
+    search_fields = ('matricula', 'cpf')
+    autocomplete_fields = ['user'] 
+
+
+@admin.register(Professor)
+class ProfessorAdmin(admin.ModelAdmin):
     list_display = ('user__first_name', 'status', 'curso')
     list_filter = ('status', 'curso')
     search_fields = ('matricula', 'cpf')
