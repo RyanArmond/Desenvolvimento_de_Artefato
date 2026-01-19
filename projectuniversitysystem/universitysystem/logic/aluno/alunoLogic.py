@@ -67,8 +67,7 @@ def getInformacoesDoAluno(idAluno):
 
     return
 
-def matricularAluno(idUser, idCurso):
-    user = get_object_or_404(User, id=idUser)
+def matricularAluno(user, idCurso):    
     aluno, created = Aluno.objects.get_or_create(usuario=user)
 
     if created:

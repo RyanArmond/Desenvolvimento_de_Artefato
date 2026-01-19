@@ -53,7 +53,15 @@ def home(request):
         return render(request, "aluno/home.html", context)
     
     elif request.user.funcao == "PR":
-        return render(request, "professor/home.html") 
+        context = {}
+
+        professor = Professor.objects.filter(user=request.user).first()
+
+        turmas = Turma.objects.filter(professor=professor)
+
+        context['disciplinas'] = turmas
+
+        return render(request, "professor/home.html", context) 
     
     else:
         return render(request, "adm/home.html")
