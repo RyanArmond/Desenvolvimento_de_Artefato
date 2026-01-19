@@ -306,7 +306,7 @@ class CalendarioAcademico(models.Model):
         ordering = ['-data_referencia']
 
     def __str__(self):
-        return f"Calendário {self.data_referencia.strftime("%Y")}"
+        return f"Calendário {self.data_referencia.strftime('%Y')}"
 
     
 class Compromisso(models.Model):
@@ -328,6 +328,6 @@ class Compromisso(models.Model):
         ordering = ["data"]
         
     def __str__(self):
-        return f"{self.data.strftime("%d/%m")} - {self.titulo}"
+        return f"{self.data.strftime('%d/%m')} - {self.titulo}"
     
     
